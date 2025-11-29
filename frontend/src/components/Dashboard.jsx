@@ -19,6 +19,7 @@ import { ScanLine } from "lucide-react"; // Import Icon
 import Predictions from "./Predictions";
 import { BrainCircuit } from "lucide-react";
 
+
 const TabButton = ({ icon: Icon, label, isActive, onClick }) => (
   <button
     onClick={onClick}

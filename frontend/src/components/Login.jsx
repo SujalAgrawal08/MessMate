@@ -38,7 +38,7 @@ function Login({ onLoginSuccess }) {
             <LogIn className="text-primary-dark" size={32} />
           </div>
         </div>
-        <h2 className="text-2xl font-bold text-center mb-6 text-neutral-900">Admin Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-neutral-900">Login</h2>
         
         {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm text-center">{error}</div>}
 
