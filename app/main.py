@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import init_db, engine # <-- Import engine
 from sqlmodel import SQLModel # <-- Import SQLModel
 from app.routes import menu, feedback
+from app.routes import menu, feedback, auth_routes, waste # Import new routes
+from app.routes import attendance
 
 app = FastAPI(title="Smart Mess Analyzer API")
 
@@ -29,8 +31,11 @@ def on_startup():
     init_db()
 # -------------------------------------------
 
+app.include_router(auth_routes.router)
 app.include_router(menu.router)
 app.include_router(feedback.router)
+app.include_router(waste.router) # Register waste router
+app.include_router(attendance.router)
 
 @app.get("/")
 def root():

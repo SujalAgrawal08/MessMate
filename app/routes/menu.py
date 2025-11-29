@@ -1,13 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, select
-from app.database import get_session
-from app.models import Menu
-from app.schemas import MenuCreate
+from fastapi import APIRouter
 from datetime import datetime
+from app.services.nutrition_estimator import estimate_nutrition
 
 router = APIRouter(prefix="/menu", tags=["Menu"])
 
-# Hardcoded full weekly schedule for display
+# --- YOUR HARDCODED SCHEDULE ---
 full_schedule = {
     'Monday': {'Breakfast': ['Poha', 'Sprouts'], 'Lunch': ['Aalu', 'Soyabean', 'Roti'], 'Snacks': ['Tea', 'Aalu Patties'], 'Dinner': ['Khadai Chicken', 'Rice']},
     'Tuesday': {'Breakfast': ['Seasonal Paratha'], 'Lunch': ['White Chole', 'Jeera Rice'], 'Snacks': ['Tea', 'Samosa'], 'Dinner': ['Chana Dal', 'Laddu']},
@@ -18,34 +15,47 @@ full_schedule = {
     'Sunday': {'Breakfast': ['Boil Egg', 'Bread Jam'], 'Lunch': ['Chole Bhature', 'Lassi'], 'Snacks': ['Tea', 'Biscuit'], 'Dinner': ['Masoor Dal', 'Kheer']}
 }
 
-@router.get("/full-schedule")
-def get_full_schedule():
-    """Returns the hardcoded full weekly schedule."""
+@router.get("/weekly")
+def get_weekly_menu():
+    """Returns the hardcoded static schedule for the table view."""
     return full_schedule
 
 @router.get("/today")
-def get_today_menu(session: Session = Depends(get_session)):
-    """Fetches all menu items for the current day from the database."""
-    today_name = datetime.now().strftime('%A')  # Gets day name like "Friday"
-    statement = select(Menu).where(Menu.day_of_week == today_name)
-    results = session.exec(statement).all()
+def get_today_menu_with_nutrition():
+    """
+    Dynamically fetches today's items from the hardcoded list 
+    and generates nutrition values on the fly.
+    """
+    # 1. Get Today's Day Name (e.g., 'Monday')
+    today_name = datetime.now().strftime('%A')
     
-    if not results:
-        return {"message": f"No menu items found for {today_name}."}
-        
-    # Group items by meal type
-    today_menu = {"Breakfast": [], "Lunch": [], "Snacks": [], "Dinner": []}
-    for item in results:
-        if item.meal_type in today_menu:
-            today_menu[item.meal_type].append(item)
-            
-    return today_menu
+    # Safety: If server time is weird or it's a leap-second day, default to Monday
+    if today_name not in full_schedule:
+        today_name = 'Monday'
 
-@router.post("/")
-def add_menu_item(item: MenuCreate, session: Session = Depends(get_session)):
-    """Adds a new menu item with nutritional info."""
-    new_item = Menu.from_orm(item)
-    session.add(new_item)
-    session.commit()
-    session.refresh(new_item)
-    return new_item
+    today_items_raw = full_schedule[today_name]
+    
+    # 2. Structure the response
+    # We transform the simple string list ['Poha', 'Sprouts'] 
+    # into Objects [{'item_name': 'Poha', 'calories': 180...}, ...]
+    enriched_menu = {
+        "Breakfast": [],
+        "Lunch": [],
+        "Snacks": [],
+        "Dinner": []
+    }
+
+    # 3. Loop through each meal and enrich with nutrition
+    for meal_type, items in today_items_raw.items():
+        for item_name in items:
+            # Call our "Smart Estimator"
+            nutrition = estimate_nutrition(item_name)
+            
+            # Append the enriched object
+            enriched_menu[meal_type].append({
+                "id": 1, # Dummy ID for frontend compatibility
+                "item_name": item_name,
+                **nutrition # Unpack calories, protein, etc.
+            })
+
+    return enriched_menu
