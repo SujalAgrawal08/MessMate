@@ -67,5 +67,7 @@ export const submitFeedback = (feedback) => api.post('/feedback/', feedback);
 export const getChart = () => api.get('/feedback/chart');
 export const getFullMenuSchedule = () => api.get('/menu/weekly');
 export const getTodaysMenu = () => api.get('/menu/today');
+export const getDemandForecast = () => api.get('/analytics/forecast/demand');
+export const getWasteChart = () => api.get('/analytics/forecast/waste-chart');
 
 export default api;

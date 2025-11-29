@@ -5,6 +5,7 @@ from sqlmodel import SQLModel # <-- Import SQLModel
 from app.routes import menu, feedback
 from app.routes import menu, feedback, auth_routes, waste # Import new routes
 from app.routes import attendance
+from app.routes import menu, feedback, auth_routes, waste, attendance, analytics # <-- Add analytics
 
 app = FastAPI(title="Smart Mess Analyzer API")
 
@@ -36,6 +37,7 @@ app.include_router(menu.router)
 app.include_router(feedback.router)
 app.include_router(waste.router) # Register waste router
 app.include_router(attendance.router)
+app.include_router(analytics.router)
 
 @app.get("/")
 def root():

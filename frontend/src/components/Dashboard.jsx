@@ -16,6 +16,8 @@ import {
 import QRCode from "react-qr-code";
 import AttendanceScanner from "./AttendanceScanner";
 import { ScanLine } from "lucide-react"; // Import Icon
+import Predictions from "./Predictions";
+import { BrainCircuit } from "lucide-react";
 
 const TabButton = ({ icon: Icon, label, isActive, onClick }) => (
   <button
@@ -117,6 +119,12 @@ function Dashboard() {
               isActive={activeTab === "scanner"}
               onClick={() => setActiveTab("scanner")}
             />
+            <TabButton
+              icon={BrainCircuit}
+              label="AI Predictions"
+              isActive={activeTab === "predictions"}
+              onClick={() => setActiveTab("predictions")}
+            />
           </div>
 
           {activeTab === "analytics" && (
@@ -131,7 +139,7 @@ function Dashboard() {
           )}
 
           {activeTab === "scanner" && <AttendanceScanner />}
-
+          {activeTab === "predictions" && <Predictions />}
           {activeTab === "waste" && <WasteLog />}
         </div>
       )}
