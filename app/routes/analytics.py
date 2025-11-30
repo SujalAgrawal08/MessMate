@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Depends
 from sqlmodel import Session
 from app.database import get_session
-from app.services.ml_engine import generate_demand_forecast, generate_waste_regression_chart
+from app.services.ml_engine import (
+    generate_demand_forecast, 
+    generate_waste_regression_chart,
+    predict_tomorrow_waste # <--- Import new function
+)
 
 router = APIRouter(prefix="/analytics", tags=["Analytics"])
 
@@ -17,3 +21,8 @@ def get_waste_model_chart(session: Session = Depends(get_session)):
     if chart_data:
         return {"chart": chart_data}
     return {"message": "Not enough data to train model yet."}
+
+@router.get("/forecast/waste-tomorrow")
+def get_tomorrow_waste_prediction(session: Session = Depends(get_session)):
+    """Returns the text-based prediction for tomorrow's waste."""
+    return predict_tomorrow_waste(session)
