@@ -2,10 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import init_db, engine # <-- Import engine
 from sqlmodel import SQLModel # <-- Import SQLModel
-from app.routes import menu, feedback
-from app.routes import menu, feedback, auth_routes, waste # Import new routes
-from app.routes import attendance
-from app.routes import menu, feedback, auth_routes, waste, attendance, analytics # <-- Add analytics
+from app.routes import menu, feedback, auth_routes, waste, attendance, analytics, leaves # <-- Add analytics
 
 app = FastAPI(title="Smart Mess Analyzer API")
 
@@ -38,7 +35,7 @@ app.include_router(feedback.router)
 app.include_router(waste.router) # Register waste router
 app.include_router(attendance.router)
 app.include_router(analytics.router)
-
+app.include_router(leaves.router)
 @app.get("/")
 def root():
     return {"message": "API is running with PostgreSQL + HuggingFace Sentiment Analysis"}

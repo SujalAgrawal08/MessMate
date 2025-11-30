@@ -4,7 +4,8 @@ import Feedback from "./Feedback";
 import Chart from "./Chart";
 import Login from "./Login";
 import WasteLog from "./WasteLog";
-import { getUserRole, getUserEmail } from "../utils"; // <--- 1. Import getUserEmail
+import { getUserRole, getUserEmail } from "../utils";
+import { applyLeave, getMyLeaves } from "../api";
 import {
   LogOut,
   LayoutDashboard,
@@ -18,7 +19,6 @@ import AttendanceScanner from "./AttendanceScanner";
 import { ScanLine } from "lucide-react"; // Import Icon
 import Predictions from "./Predictions";
 import { BrainCircuit } from "lucide-react";
-
 
 const TabButton = ({ icon: Icon, label, isActive, onClick }) => (
   <button
@@ -38,6 +38,7 @@ function Dashboard() {
   const [role, setRole] = useState(null);
   const [userEmail, setUserEmail] = useState(""); // <--- 3. Add State for Email
   const [activeTab, setActiveTab] = useState("");
+  const [isSkipped, setIsSkipped] = useState(false);
 
   useEffect(() => {
     const checkAuth = () => {
@@ -57,6 +58,32 @@ function Dashboard() {
     checkAuth();
   }, [activeTab]);
 
+  useEffect(() => {
+    const checkLeaveStatus = async () => {
+      if (role === "student") {
+        try {
+          const today = new Date().toISOString().split("T")[0];
+          const res = await getMyLeaves();
+
+          // Check if there is ANY record matching Today + Lunch
+          const alreadySkipped = res.data.find(
+            (leave) => leave.leave_date === today && leave.meal_type === "Lunch"
+          );
+
+          if (alreadySkipped) {
+            setIsSkipped(true);
+          }
+        } catch (e) {
+          console.error("Could not fetch leave status", e);
+        }
+      }
+    };
+
+    if (isAuthenticated) {
+      checkLeaveStatus();
+    }
+  }, [isAuthenticated, role]);
+
   const handleLoginSuccess = () => {
     const userRole = getUserRole();
     const email = getUserEmail(); // <--- 5. Get Email on Login Success
@@ -72,6 +99,25 @@ function Dashboard() {
     setIsAuthenticated(false);
     setRole(null);
     setUserEmail("");
+  };
+  const handleSkipMeal = async () => {
+    if (confirm("Mark leave for Today's Lunch?")) {
+      try {
+        const today = new Date().toISOString().split("T")[0];
+        const response = await applyLeave(today, "Lunch");
+
+        // Check what the backend actually said
+        if (response.data.message === "Leave already applied.") {
+          alert("You have ALREADY applied for leave!");
+        } else {
+          alert("Leave Applied! Rebate credited.");
+        }
+
+        setIsSkipped(true); // Disable button
+      } catch (e) {
+        alert("Failed to apply leave.");
+      }
+    }
   };
 
   if (!isAuthenticated) {
@@ -169,6 +215,24 @@ function Dashboard() {
               onClick={() => setActiveTab("qr")}
             />
           </div>
+
+          {activeTab === "menu" && (
+            <div className="mb-4 flex justify-end">
+              <button
+                onClick={handleSkipMeal}
+                disabled={isSkipped}
+                className={`px-4 py-2 rounded-lg font-bold text-sm ${
+                  isSkipped
+                    ? "bg-neutral-200 text-neutral-500"
+                    : "bg-red-100 text-red-600 hover:bg-red-200"
+                }`}
+              >
+                {isSkipped
+                  ? "On Leave (Rebate Active)"
+                  : "Skip Lunch & Save ₹50"}
+              </button>
+            </div>
+          )}
 
           {activeTab === "menu" && <Menu />}
 

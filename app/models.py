@@ -47,3 +47,9 @@ class Attendance(SQLModel, table=True):
     log_date: date = Field(default_factory=date.today) # <--- RENAMED from 'date' to 'log_date'
     meal_type: str 
     status: str = "Present"
+class LeaveRecord(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    student_id: int
+    leave_date: date
+    meal_type: str # Breakfast, Lunch, etc.
+    created_at: date = Field(default_factory=date.today)

@@ -4,6 +4,7 @@ from sqlmodel import Session, select
 from app.database import get_session
 from app.models import Attendance, User
 from datetime import date
+from app.models import LeaveRecord
 
 router = APIRouter(prefix="/attendance", tags=["Attendance"])
 
@@ -13,6 +14,16 @@ def mark_attendance(student_email: str, meal_type: str, session: Session = Depen
     user = session.exec(select(User).where(User.email == student_email)).first()
     if not user:
         raise HTTPException(status_code=404, detail="Student not found")
+    
+    on_leave = session.exec(select(LeaveRecord).where(
+        LeaveRecord.student_id == user.id,
+        LeaveRecord.leave_date == date.today(),
+        LeaveRecord.meal_type == meal_type
+    )).first()
+
+    if on_leave:
+        # Throw error so the Scanner turns RED
+        raise HTTPException(status_code=400, detail="❌ BLOCKED: Student marked LEAVE")
 
     # 2. Check if already marked for this meal
     existing = session.exec(select(Attendance).where(

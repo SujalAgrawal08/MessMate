@@ -69,5 +69,6 @@ export const getFullMenuSchedule = () => api.get('/menu/weekly');
 export const getTodaysMenu = () => api.get('/menu/today');
 export const getDemandForecast = () => api.get('/analytics/forecast/demand');
 export const getWasteChart = () => api.get('/analytics/forecast/waste-chart');
-
+export const applyLeave = (date, meal) => api.post(`/leaves/apply?leave_date=${date}&meal_type=${meal}`);
+export const getMyLeaves = () => api.get('/leaves/my-leaves');
 export default api;
