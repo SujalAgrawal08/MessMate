@@ -5,25 +5,17 @@ import base64
 from sqlmodel import Session, select
 from app.models import Feedback
 
-# Force non-GUI backend to prevent server crashes
+# Force non-GUI backend
 matplotlib.use('Agg')
 
 def generate_sentiment_chart(session: Session):
-    # 1. Fetch Data
     data = session.exec(select(Feedback)).all()
     if not data:
         return None
     
-    # 2. Manual Counting to ensure fixed order
-    # This prevents the "colors swapping" bug
-    counts = {
-        "Positive": 0,
-        "Neutral": 0, 
-        "Negative": 0
-    }
-
+    # Count sentiments
+    counts = {"Positive": 0, "Neutral": 0, "Negative": 0}
     for f in data:
-        # Check standard HuggingFace labels OR readable text
         s = f.sentiment
         if s == "LABEL_2" or s == "positive":
             counts["Positive"] += 1
@@ -32,31 +24,49 @@ def generate_sentiment_chart(session: Session):
         elif s == "LABEL_0" or s == "negative":
             counts["Negative"] += 1
 
-    # 3. Prepare Data for Plotting (Fixed Order)
     categories = ["Positive", "Neutral", "Negative"]
     values = [counts["Positive"], counts["Neutral"], counts["Negative"]]
     
-    # 4. Define Colors (Green, Gray, Red)
-    colors = ["#22c55e", "#9ca3af", "#ef4444"] 
+    # --- THEME UPDATE ---
+    # Neon Green, Slate Grey, Neon Red
+    colors = ["#4ade80", "#64748b", "#f87171"] 
+    text_color = "#e2e8f0" # Slate-200
 
-    # 5. Generate Plot
-    plt.figure(figsize=(5, 4))
-    plt.bar(categories, values, color=colors)
+    # Create Figure with Transparent Background
+    fig, ax = plt.subplots(figsize=(5, 4))
+    fig.patch.set_alpha(0.0) # Transparent outer background
+    ax.set_facecolor('#00000000') # Transparent inner background
+
+    # Plot
+    bars = ax.bar(categories, values, color=colors)
+
+    # Styling Axis & Text
+    ax.set_title("Sentiment Distribution", color="white", fontsize=12, fontweight='bold', pad=15)
+    ax.set_ylabel("Count", color=text_color)
+    ax.tick_params(axis='x', colors=text_color)
+    ax.tick_params(axis='y', colors=text_color)
     
-    plt.title("Sentiment Distribution")
-    plt.ylabel("Count")
-    
-    # Ensure y-axis uses whole numbers (integers) only
+    # Subtle Grid
+    ax.yaxis.grid(True, color='#334155', linestyle='--', alpha=0.5)
+    ax.set_axisbelow(True)
+
+    # Remove Borders (Spines)
+    for spine in ax.spines.values():
+        spine.set_edgecolor('#334155')
+        spine.set_visible(False)
+    ax.spines['bottom'].set_visible(True)
+
+    # Ensure integers on Y-axis
     if max(values) > 0:
         plt.yticks(range(0, max(values) + 2))
     
     plt.tight_layout()
 
-    # 6. Save to Base64
+    # Save
     buffer = io.BytesIO()
-    plt.savefig(buffer, format="png")
+    plt.savefig(buffer, format="png", transparent=True) # Important: transparent=True
     buffer.seek(0)
     img_data = base64.b64encode(buffer.getvalue()).decode("utf-8")
-    buffer.close()
+    plt.close()
     
     return img_data

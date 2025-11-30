@@ -14,10 +14,10 @@ function Chart() {
           setChartData(`data:image/png;base64,${response.data.chart}`);
           setError('');
         } else {
-          setError('No data to display. Submit feedback to see the chart!');
+          setError('Awaiting feedback data for visualization...');
           setChartData(null);
         }
-      } catch (err) { setError('Failed to load chart.'); }
+      } catch (err) { setError('Failed to synchronize chart data.'); }
     };
     
     fetchChart();
@@ -26,16 +26,19 @@ function Chart() {
   }, []);
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-soft-lg h-full">
+    <div className="glass-card p-6 rounded-2xl h-full flex flex-col">
       <div className="flex items-center gap-3 mb-4">
-        <BarChartHorizontal size={20} className="text-primary-dark" />
-        <h3 className="text-xl font-bold">Live Sentiment Overview</h3>
+        <div className="bg-purple-500/20 p-2 rounded-lg border border-purple-500/30">
+            <BarChartHorizontal size={20} className="text-purple-400" />
+        </div>
+        <h3 className="text-xl font-bold text-white">Live Sentiment Overview</h3>
       </div>
-      <div className="flex items-center justify-center min-h-[200px] bg-neutral-100 rounded-xl p-4">
+      
+      <div className="flex-1 flex items-center justify-center bg-white/5 rounded-xl p-4 border border-white/5">
         {chartData ? (
-          <img src={chartData} alt="Sentiment analysis chart" className="max-w-full" />
+          <img src={chartData} alt="Sentiment analysis chart" className="max-w-full rounded opacity-90" />
         ) : (
-          <p className="text-neutral-500 text-sm text-center">{error || 'Loading chart...'}</p>
+          <p className="text-slate-500 text-sm text-center italic">{error || 'Initializing visualization...'}</p>
         )}
       </div>
     </div>

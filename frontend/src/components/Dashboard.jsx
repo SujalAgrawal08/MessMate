@@ -1,318 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import Menu from "./Menu";
-// import Feedback from "./Feedback";
-// import Chart from "./Chart";
-// import Login from "./Login";
-// import WasteLog from "./WasteLog";
-// import { getUserRole, getUserEmail } from "../utils";
-// import { applyLeave, getMyLeaves } from "../api"; // Ensure applyLeave is imported
-// import {
-//   LogOut,
-//   LayoutDashboard,
-//   Utensils,
-//   Trash2,
-//   LineChart,
-//   QrCode,
-//   ScanLine,
-//   BrainCircuit,
-// } from "lucide-react";
-// import QRCode from "react-qr-code";
-// import AttendanceScanner from "./AttendanceScanner";
-// import Predictions from "./Predictions";
-// import WeeklyMenuTable from "./WeeklyMenuTable"; // <--- Add this
-// import { Table } from "lucide-react"; // Import an icon
-// import toast from "react-hot-toast";
-
-// const TabButton = ({ icon: Icon, label, isActive, onClick }) => (
-//   <button
-//     onClick={onClick}
-//     className={`flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl transition-all ${
-//       isActive
-//         ? "bg-primary text-white shadow-md"
-//         : "bg-white text-neutral-500 hover:bg-neutral-50"
-//     }`}
-//   >
-//     <Icon size={18} /> {label}
-//   </button>
-// );
-
-// function Dashboard() {
-//   // --- 1. STATE DECLARATIONS ---
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-//   const [role, setRole] = useState(null);
-//   const [userEmail, setUserEmail] = useState("");
-//   const [activeTab, setActiveTab] = useState("");
-//   const [isSkipped, setIsSkipped] = useState(false);
-//   const [targetMeal, setTargetMeal] = useState(null); // <--- NEW: Tracks which meal to skip
-
-//   // --- 2. HELPER: Determine Next Meal ---
-//   const determineNextMeal = () => {
-//     const now = new Date();
-//     const currentMins = now.getHours() * 60 + now.getMinutes();
-
-//     // Cutoffs in minutes (Start time - 15 mins):
-//     // 07:45 = 465, 11:45 = 705, 16:45 = 1005, 19:15 = 1155
-//     if (currentMins < 465) return "Breakfast";
-//     if (currentMins < 705) return "Lunch";
-//     if (currentMins < 1005) return "Snacks";
-//     if (currentMins < 1155) return "Dinner";
-
-//     return null; // No meals left today
-//   };
-
-//   // --- 3. AUTH & INIT EFFECT ---
-//   useEffect(() => {
-//     const checkAuth = () => {
-//       const userRole = getUserRole();
-//       const email = getUserEmail();
-
-//       if (userRole) {
-//         setIsAuthenticated(true);
-//         setRole(userRole);
-//         setUserEmail(email || "student@test.com");
-
-//         if (!activeTab) {
-//           setActiveTab(userRole === "admin" ? "analytics" : "menu");
-//         }
-//       }
-//     };
-//     checkAuth();
-//   }, [activeTab]);
-
-//   // --- 4. CHECK LEAVE STATUS EFFECT ---
-//   useEffect(() => {
-//     const checkLeaveStatus = async () => {
-//       if (role === "student") {
-//         // Calculate dynamic meal
-//         const nextMeal = determineNextMeal();
-//         setTargetMeal(nextMeal);
-
-//         if (!nextMeal) return;
-
-//         try {
-//           const today = new Date().toISOString().split("T")[0];
-//           const res = await getMyLeaves();
-
-//           // Check if we already skipped THIS specific calculated meal
-//           const alreadySkipped = res.data.find(
-//             (leave) =>
-//               leave.leave_date === today && leave.meal_type === nextMeal
-//           );
-
-//           if (alreadySkipped) {
-//             setIsSkipped(true);
-//           } else {
-//             setIsSkipped(false);
-//           }
-//         } catch (e) {
-//           console.error("Could not fetch leave status", e);
-//         }
-//       }
-//     };
-
-//     if (isAuthenticated) {
-//       checkLeaveStatus();
-//     }
-//   }, [isAuthenticated, role]);
-
-//   const handleLoginSuccess = () => {
-//     const userRole = getUserRole();
-//     const email = getUserEmail();
-//     setRole(userRole);
-//     setUserEmail(email);
-//     setIsAuthenticated(true);
-//     setActiveTab(userRole === "admin" ? "analytics" : "menu");
-//   };
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("messmate_token");
-//     setIsAuthenticated(false);
-//     setRole(null);
-//     setUserEmail("");
-//   };
-
-//   // --- 5. SKIP MEAL HANDLER ---
-//   const handleSkipMeal = async () => {
-//     if (!targetMeal) return;
-
-//     if (confirm(`Mark leave for Today's ${targetMeal}?`)) {
-//       const loadToast = toast.loading("Processing...");
-//       try {
-//         const today = new Date().toISOString().split("T")[0];
-//         const response = await applyLeave(today, targetMeal);
-
-//         if (response.data.message === "Leave already applied.") {
-//           toast.error("You have ALREADY applied for leave!", { id: loadToast });
-//         } else {
-//           toast.success(`Leave Applied for ${targetMeal}! Rebate credited.`, {
-//             id: loadToast,
-//           });
-//         }
-
-//         setIsSkipped(true);
-//       } catch (e) {
-//         const msg = e.response?.data?.detail || "Failed to apply leave.";
-//         toast.error(msg, { id: loadToast });
-//       }
-//     }
-//   };
-
-//   if (!isAuthenticated) {
-//     return <Login onLoginSuccess={handleLoginSuccess} />;
-//   }
-
-//   return (
-//     <div className="min-h-screen bg-neutral-50/50">
-//       {/* Header Bar */}
-//       <div className="flex justify-between items-center mb-8 bg-white p-4 rounded-2xl shadow-sm border border-neutral-100">
-//         <div>
-//           <h2 className="text-2xl font-bold text-neutral-800">
-//             {role === "admin" ? "Admin Dashboard" : "Student Portal"}
-//           </h2>
-//           <p className="text-sm text-neutral-400">
-//             Welcome back, {userEmail || role}
-//           </p>
-//         </div>
-//         <button
-//           onClick={handleLogout}
-//           className="flex items-center gap-2 text-red-500 font-bold px-4 py-2 hover:bg-red-50 rounded-lg transition"
-//         >
-//           <LogOut size={18} /> Logout
-//         </button>
-//       </div>
-
-//       {/* --- ADMIN DASHBOARD LAYOUT --- */}
-//       {role === "admin" && (
-//         <div className="space-y-6">
-//           <div className="flex gap-4 mb-6 overflow-x-auto pb-2">
-//             <TabButton
-//               icon={LineChart}
-//               label="Analytics & Reviews"
-//               isActive={activeTab === "analytics"}
-//               onClick={() => setActiveTab("analytics")}
-//             />
-//             <TabButton
-//               icon={Trash2}
-//               label="Waste Management"
-//               isActive={activeTab === "waste"}
-//               onClick={() => setActiveTab("waste")}
-//             />
-//             <TabButton
-//               icon={ScanLine}
-//               label="Scanner"
-//               isActive={activeTab === "scanner"}
-//               onClick={() => setActiveTab("scanner")}
-//             />
-//             <TabButton
-//               icon={BrainCircuit}
-//               label="AI Predictions"
-//               isActive={activeTab === "predictions"}
-//               onClick={() => setActiveTab("predictions")}
-//             />
-//             <TabButton
-//               icon={Table}
-//               label="Full Menu"
-//               isActive={activeTab === "admin_menu"}
-//               onClick={() => setActiveTab("admin_menu")}
-//             />
-//           </div>
-
-//           {activeTab === "analytics" && (
-//             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-//               <div className="lg:col-span-2 h-[500px]">
-//                 <Chart />
-//               </div>
-//               <div className="h-[500px]">
-//                 <Feedback mode="view" />
-//               </div>
-//             </div>
-//           )}
-
-//           {activeTab === "scanner" && <AttendanceScanner />}
-//           {activeTab === "predictions" && <Predictions />}
-//           {activeTab === "waste" && <WasteLog />}
-//           {activeTab === "admin_menu" && (
-//             <div className="space-y-4">
-//               <h3 className="text-xl font-bold px-1">Weekly Menu Schedule</h3>
-//               <WeeklyMenuTable />
-//             </div>
-//           )}
-//         </div>
-//       )}
-
-//       {/* --- STUDENT DASHBOARD LAYOUT --- */}
-//       {role === "student" && (
-//         <div className="space-y-6">
-//           <div className="flex gap-4 mb-6 justify-center">
-//             <TabButton
-//               icon={Utensils}
-//               label="Today's Menu"
-//               isActive={activeTab === "menu"}
-//               onClick={() => setActiveTab("menu")}
-//             />
-//             <TabButton
-//               icon={LayoutDashboard}
-//               label="Give Feedback"
-//               isActive={activeTab === "feedback"}
-//               onClick={() => setActiveTab("feedback")}
-//             />
-//             <TabButton
-//               icon={QrCode}
-//               label="Entry Pass"
-//               isActive={activeTab === "qr"}
-//               onClick={() => setActiveTab("qr")}
-//             />
-//           </div>
-
-//           {/* DYNAMIC BUTTON RENDER */}
-//           {activeTab === "menu" && targetMeal && (
-//             <div className="flex justify-end">
-//               <button
-//                 onClick={handleSkipMeal}
-//                 disabled={isSkipped}
-//                 className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${
-//                   isSkipped
-//                     ? "bg-neutral-200 text-neutral-500 cursor-not-allowed"
-//                     : "bg-red-100 text-red-600 hover:bg-red-200 shadow-sm"
-//                 }`}
-//               >
-//                 {isSkipped
-//                   ? `On Leave: ${targetMeal} (Rebate Active)`
-//                   : `Skip ${targetMeal} & Save ₹50`}
-//               </button>
-//             </div>
-//           )}
-
-//           {activeTab === "menu" && <Menu />}
-
-//           {activeTab === "feedback" && (
-//             <div className="flex justify-center mt-10">
-//               <Feedback mode="submit" />
-//             </div>
-//           )}
-
-//           {activeTab === "qr" && (
-//             <div className="flex flex-col items-center justify-center p-10 bg-white rounded-2xl shadow-soft">
-//               <h3 className="text-xl font-bold mb-6">Your Mess Entry Pass</h3>
-//               <div className="p-4 bg-white border-2 border-neutral-900 rounded-xl">
-//                 <QRCode value={userEmail || "No Email Found"} size={200} />
-//               </div>
-//               <p className="mt-6 text-neutral-500 text-sm">
-//                 Show this to the mess manager to mark attendance.
-//               </p>
-//               <p className="mt-2 text-xs text-neutral-400 font-mono">
-//                 {userEmail}
-//               </p>
-//             </div>
-//           )}
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default Dashboard;
-
 import React, { useState, useEffect } from "react";
 import Menu from "./Menu";
 import Feedback from "./Feedback";
@@ -331,20 +16,23 @@ import {
   ScanLine,
   BrainCircuit,
   Table,
+  Zap,
+  AlertTriangle,
+  X
 } from "lucide-react";
 import QRCode from "react-qr-code";
 import AttendanceScanner from "./AttendanceScanner";
 import Predictions from "./Predictions";
 import WeeklyMenuTable from "./WeeklyMenuTable";
-import toast from "react-hot-toast"; // <--- Import
+import toast from 'react-hot-toast';
 
 const TabButton = ({ icon: Icon, label, isActive, onClick }) => (
   <button
     onClick={onClick}
-    className={`flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl transition-all ${
+    className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold rounded-xl transition-all duration-300 border ${
       isActive
-        ? "bg-primary text-white shadow-md"
-        : "bg-white text-neutral-500 hover:bg-neutral-50"
+        ? "bg-cyan-500/10 border-cyan-500/50 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+        : "bg-white/5 border-transparent text-slate-400 hover:bg-white/10 hover:text-white"
     }`}
   >
     <Icon size={18} /> {label}
@@ -358,29 +46,28 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState("");
   const [isSkipped, setIsSkipped] = useState(false);
   const [targetMeal, setTargetMeal] = useState(null);
+  
+  // Modal State
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const determineNextMeal = () => {
     const now = new Date();
     const currentMins = now.getHours() * 60 + now.getMinutes();
-
     if (currentMins < 465) return "Breakfast";
     if (currentMins < 705) return "Lunch";
     if (currentMins < 1005) return "Snacks";
     if (currentMins < 1155) return "Dinner";
-
-    return null;
+    return null; 
   };
 
   useEffect(() => {
     const checkAuth = () => {
       const userRole = getUserRole();
       const email = getUserEmail();
-
       if (userRole) {
         setIsAuthenticated(true);
         setRole(userRole);
         setUserEmail(email || "student@test.com");
-
         if (!activeTab) {
           setActiveTab(userRole === "admin" ? "analytics" : "menu");
         }
@@ -394,32 +81,19 @@ function Dashboard() {
       if (role === "student") {
         const nextMeal = determineNextMeal();
         setTargetMeal(nextMeal);
-
         if (!nextMeal) return;
-
         try {
           const today = new Date().toISOString().split("T")[0];
           const res = await getMyLeaves();
-
           const alreadySkipped = res.data.find(
-            (leave) =>
-              leave.leave_date === today && leave.meal_type === nextMeal
+            (leave) => leave.leave_date === today && leave.meal_type === nextMeal
           );
-
-          if (alreadySkipped) {
-            setIsSkipped(true);
-          } else {
-            setIsSkipped(false);
-          }
-        } catch (e) {
-          console.error("Could not fetch leave status", e);
-        }
+          if (alreadySkipped) setIsSkipped(true);
+          else setIsSkipped(false);
+        } catch (e) { console.error("Could not fetch leave status", e); }
       }
     };
-
-    if (isAuthenticated) {
-      checkLeaveStatus();
-    }
+    if (isAuthenticated) checkLeaveStatus();
   }, [isAuthenticated, role]);
 
   const handleLoginSuccess = () => {
@@ -429,7 +103,7 @@ function Dashboard() {
     setUserEmail(email);
     setIsAuthenticated(true);
     setActiveTab(userRole === "admin" ? "analytics" : "menu");
-    toast.success("Successfully Logged In!");
+    toast.success("Access Granted", { id: 'login-success' });
   };
 
   const handleLogout = () => {
@@ -437,32 +111,27 @@ function Dashboard() {
     setIsAuthenticated(false);
     setRole(null);
     setUserEmail("");
-    toast("Logged out", { icon: "👋" });
+    toast('Session Ended', { icon: '🔒', id: 'logout' });
   };
 
-  const handleSkipMeal = async () => {
-    if (!targetMeal) return;
-
-    // Use native confirm for safety, but Toasts for results
-    if (confirm(`Mark leave for Today's ${targetMeal}?`)) {
-      const loadToast = toast.loading("Processing...");
-      try {
-        const today = new Date().toISOString().split("T")[0];
-        const response = await applyLeave(today, targetMeal);
-
-        if (response.data.message === "Leave already applied.") {
-          toast.error("You have ALREADY applied for leave!", { id: loadToast });
-        } else {
-          toast.success(`Leave Applied for ${targetMeal}! Rebate credited.`, {
-            id: loadToast,
-          });
-        }
-
-        setIsSkipped(true);
-      } catch (e) {
-        const msg = e.response?.data?.detail || "Failed to apply leave.";
-        toast.error(msg, { id: loadToast });
+  // --- API EXECUTION LOGIC ---
+  const executeLeave = async () => {
+    setShowConfirmModal(false);
+    
+    const loadToast = toast.loading("Processing Request...", { id: 'leave-process' });
+    try {
+      const today = new Date().toISOString().split("T")[0];
+      const response = await applyLeave(today, targetMeal);
+      
+      if (response.data.message === "Leave already applied.") {
+        toast.error("Duplicate Request Detected", { id: loadToast });
+      } else {
+        toast.success(`Rebate Credited: ${targetMeal}`, { id: loadToast });
       }
+      setIsSkipped(true);
+    } catch (e) {
+      const msg = e.response?.data?.detail || "Transaction Failed";
+      toast.error(msg, { id: loadToast });
     }
   };
 
@@ -471,67 +140,90 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50/50">
-      <div className="flex justify-between items-center mb-8 bg-white p-4 rounded-2xl shadow-sm border border-neutral-100">
-        <div>
-          <h2 className="text-2xl font-bold text-neutral-800">
-            {role === "admin" ? "Admin Dashboard" : "Student Portal"}
-          </h2>
-          <p className="text-sm text-neutral-400">
-            Welcome back, {userEmail || role}
-          </p>
+    <div className="min-h-screen relative z-10">
+      
+      {/* --- CONFIRMATION MODAL --- */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" 
+            onClick={() => setShowConfirmModal(false)}
+          />
+          <div className="glass-card w-full max-w-md rounded-2xl p-6 relative border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.15)] animate-in zoom-in-95 duration-200">
+            <button 
+              onClick={() => setShowConfirmModal(false)}
+              className="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="flex flex-col items-center text-center mb-6">
+              <div className="bg-red-500/10 p-4 rounded-full border border-red-500/20 mb-4 shadow-[0_0_20px_rgba(239,68,68,0.2)]">
+                <AlertTriangle size={32} className="text-red-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-2">Confirm Opt-Out</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                You are about to skip <strong className="text-cyan-400">{targetMeal}</strong> for today. 
+                <br />
+                This will grant you a <strong className="text-green-400">₹50 Rebate</strong>, but your QR Code will be blocked for this meal.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="py-3 rounded-xl font-semibold text-slate-300 hover:bg-white/5 border border-white/10 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={executeLeave}
+                className="py-3 rounded-xl font-bold text-black bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-400 hover:to-orange-400 shadow-lg shadow-red-500/20 transition-all"
+              >
+                Confirm & Skip
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- HEADER --- */}
+      <div className="flex justify-between items-center mb-8 glass-card p-6 rounded-2xl">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-cyan-500/10 rounded-full border border-cyan-500/20">
+             <Zap className="text-cyan-400" size={24} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-white">
+              {role === "admin" ? "Admin Panel" : "Student Panel"}
+            </h2>
+            {/* --- FIX APPLIED BELOW: Removed 'uppercase' class --- */}
+            <p className="text-sm text-cyan-200/60 font-mono tracking-wider">
+              ID: {userEmail || role} 
+            </p>
+          </div>
         </div>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 text-red-500 font-bold px-4 py-2 hover:bg-red-50 rounded-lg transition"
+          className="flex items-center gap-2 text-red-400 font-bold px-4 py-2 hover:bg-red-500/10 rounded-lg transition border border-transparent hover:border-red-500/20"
         >
-          <LogOut size={18} /> Logout
+          <LogOut size={18} /> Disconnect
         </button>
       </div>
 
+      {/* --- ADMIN DASHBOARD --- */}
       {role === "admin" && (
         <div className="space-y-6">
-          <div className="flex gap-4 mb-6 overflow-x-auto pb-2">
-            <TabButton
-              icon={LineChart}
-              label="Analytics & Reviews"
-              isActive={activeTab === "analytics"}
-              onClick={() => setActiveTab("analytics")}
-            />
-            <TabButton
-              icon={Trash2}
-              label="Waste Management"
-              isActive={activeTab === "waste"}
-              onClick={() => setActiveTab("waste")}
-            />
-            <TabButton
-              icon={ScanLine}
-              label="Scanner"
-              isActive={activeTab === "scanner"}
-              onClick={() => setActiveTab("scanner")}
-            />
-            <TabButton
-              icon={BrainCircuit}
-              label="AI Predictions"
-              isActive={activeTab === "predictions"}
-              onClick={() => setActiveTab("predictions")}
-            />
-            <TabButton
-              icon={Table}
-              label="Full Menu"
-              isActive={activeTab === "admin_menu"}
-              onClick={() => setActiveTab("admin_menu")}
-            />
+          <div className="flex gap-4 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+            <TabButton icon={LineChart} label="Analytics" isActive={activeTab === "analytics"} onClick={() => setActiveTab("analytics")} />
+            <TabButton icon={Trash2} label="Waste Logs" isActive={activeTab === "waste"} onClick={() => setActiveTab("waste")} />
+            <TabButton icon={ScanLine} label="Scanner" isActive={activeTab === "scanner"} onClick={() => setActiveTab("scanner")} />
+            <TabButton icon={BrainCircuit} label="AI Models" isActive={activeTab === "predictions"} onClick={() => setActiveTab("predictions")} />
+            <TabButton icon={Table} label="Database" isActive={activeTab === "admin_menu"} onClick={() => setActiveTab("admin_menu")} />
           </div>
 
           {activeTab === "analytics" && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 h-[500px]">
-                <Chart />
-              </div>
-              <div className="h-[500px]">
-                <Feedback mode="view" />
-              </div>
+              <div className="lg:col-span-2 h-[500px]"><Chart /></div>
+              <div className="h-[500px]"><Feedback mode="view" /></div>
             </div>
           )}
 
@@ -540,50 +232,36 @@ function Dashboard() {
           {activeTab === "waste" && <WasteLog />}
           {activeTab === "admin_menu" && (
             <div className="space-y-4">
-              <h3 className="text-xl font-bold px-1">Weekly Menu Schedule</h3>
+              <h3 className="text-xl font-bold px-1 text-white">Menu Database</h3>
               <WeeklyMenuTable />
             </div>
           )}
         </div>
       )}
 
+      {/* --- STUDENT DASHBOARD --- */}
       {role === "student" && (
         <div className="space-y-6">
           <div className="flex gap-4 mb-6 justify-center">
-            <TabButton
-              icon={Utensils}
-              label="Today's Menu"
-              isActive={activeTab === "menu"}
-              onClick={() => setActiveTab("menu")}
-            />
-            <TabButton
-              icon={LayoutDashboard}
-              label="Give Feedback"
-              isActive={activeTab === "feedback"}
-              onClick={() => setActiveTab("feedback")}
-            />
-            <TabButton
-              icon={QrCode}
-              label="Entry Pass"
-              isActive={activeTab === "qr"}
-              onClick={() => setActiveTab("qr")}
-            />
+            <TabButton icon={Utensils} label="Menu" isActive={activeTab === "menu"} onClick={() => setActiveTab("menu")} />
+            <TabButton icon={LayoutDashboard} label="Review" isActive={activeTab === "feedback"} onClick={() => setActiveTab("feedback")} />
+            <TabButton icon={QrCode} label="Pass" isActive={activeTab === "qr"} onClick={() => setActiveTab("qr")} />
           </div>
 
           {activeTab === "menu" && targetMeal && (
-            <div className="flex justify-end">
+            <div className="flex justify-end animate-in fade-in slide-in-from-right-5">
               <button
-                onClick={handleSkipMeal}
+                onClick={() => setShowConfirmModal(true)} 
                 disabled={isSkipped}
-                className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${
+                className={`px-6 py-2 rounded-xl font-bold text-sm transition-all border ${
                   isSkipped
-                    ? "bg-neutral-200 text-neutral-500 cursor-not-allowed"
-                    : "bg-red-100 text-red-600 hover:bg-red-200 shadow-sm"
+                    ? "bg-white/5 text-slate-500 border-white/5 cursor-not-allowed"
+                    : "bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.2)]"
                 }`}
               >
                 {isSkipped
-                  ? `On Leave: ${targetMeal} (Rebate Active)`
-                  : `Skip ${targetMeal} & Save ₹50`}
+                  ? `Leaves Active: ${targetMeal}`
+                  : `Opt-Out: ${targetMeal} (+₹50 Credit)`}
               </button>
             </div>
           )}
@@ -597,15 +275,15 @@ function Dashboard() {
           )}
 
           {activeTab === "qr" && (
-            <div className="flex flex-col items-center justify-center p-10 bg-white rounded-2xl shadow-soft">
-              <h3 className="text-xl font-bold mb-6">Your Mess Entry Pass</h3>
-              <div className="p-4 bg-white border-2 border-neutral-900 rounded-xl">
+            <div className="flex flex-col items-center justify-center p-10 glass-card rounded-2xl">
+              <h3 className="text-xl font-bold mb-6 text-white">Digital Entry Token</h3>
+              <div className="p-4 bg-white rounded-xl shadow-[0_0_30px_rgba(255,255,255,0.2)]">
                 <QRCode value={userEmail || "No Email Found"} size={200} />
               </div>
-              <p className="mt-6 text-neutral-500 text-sm">
-                Show this to the mess manager to mark attendance.
+              <p className="mt-6 text-slate-400 text-sm">
+                Present this token for scanning
               </p>
-              <p className="mt-2 text-xs text-neutral-400 font-mono">
+              <p className="mt-2 text-xs text-cyan-400 font-mono tracking-widest bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
                 {userEmail}
               </p>
             </div>

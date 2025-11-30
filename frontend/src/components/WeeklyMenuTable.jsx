@@ -12,32 +12,30 @@ function WeeklyMenuTable() {
       try {
         const response = await getFullMenuSchedule();
         setSchedule(response.data);
-      } catch (error) {
-        console.error("Failed to fetch full schedule:", error);
-      }
+      } catch (error) { console.error(error); }
     };
     fetchSchedule();
   }, []);
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-soft-lg">
-      <h2 className="text-2xl font-bold mb-6 text-neutral-900">Full Weekly Menu</h2>
+    <div className="glass-card p-6 rounded-2xl">
+      <h2 className="text-2xl font-bold mb-6 text-white">Full Weekly Schedule</h2>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[800px] border-collapse text-left">
           <thead>
-            <tr className="bg-primary-lightest">
-              <th className="p-4 font-semibold text-primary-dark rounded-tl-xl">Day/Meal</th>
+            <tr>
+              <th className="p-4 font-semibold text-cyan-400 border-b border-white/10">Meal</th>
               {dayOrder.map(day => (
-                <th key={day} className="p-4 font-semibold text-primary-dark">{day}</th>
+                <th key={day} className="p-4 font-semibold text-cyan-400 border-b border-white/10">{day}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {mealOrder.map((meal, index) => (
-              <tr key={meal} className={index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}>
-                <td className="p-4 font-semibold border-t border-neutral-200">{meal}</td>
+            {mealOrder.map((meal) => (
+              <tr key={meal} className="hover:bg-white/5 transition-colors">
+                <td className="p-4 font-semibold text-slate-200 border-b border-white/5">{meal}</td>
                 {dayOrder.map(day => (
-                  <td key={`${day}-${meal}`} className="p-4 text-sm text-neutral-600 border-t border-neutral-200">
+                  <td key={`${day}-${meal}`} className="p-4 text-sm text-slate-400 border-b border-white/5">
                     {schedule[day] && schedule[day][meal] ? schedule[day][meal].join(', ') : '-'}
                   </td>
                 ))}
