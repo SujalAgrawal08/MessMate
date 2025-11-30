@@ -1,30 +1,29 @@
 import React, { useState } from 'react';
 import { loginUser } from '../api';
 import { LogIn, Lock, Mail } from 'lucide-react';
+import toast from 'react-hot-toast'; // <--- Import
 
 function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    // Loading toast
+    const toastId = toast.loading('Logging in...');
 
     try {
       const response = await loginUser(email, password);
       const token = response.data.access_token;
       
-      // Save token
       localStorage.setItem('messmate_token', token);
       
-      // Decode token roughly to check role (Optional: better to use a library like jwt-decode)
-      // For now, we just pass success
+      toast.success('Welcome back!', { id: toastId }); // Replace loading with success
       onLoginSuccess();
     } catch (err) {
-      setError('Invalid email or password.');
+      toast.error('Invalid email or password.', { id: toastId }); // Replace loading with error
     } finally {
       setLoading(false);
     }
@@ -40,7 +39,7 @@ function Login({ onLoginSuccess }) {
         </div>
         <h2 className="text-2xl font-bold text-center mb-6 text-neutral-900">Login</h2>
         
-        {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm text-center">{error}</div>}
+        {/* Error div removed, replaced by Toast */}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">

@@ -3,12 +3,14 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import Footer from './components/Footer';
 import { Salad, LayoutDashboard } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const [view, setView] = useState('home'); // 'home' or 'dashboard'
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-700">
+      <Toaster position="top-center" reverseOrder={false} />
       <header className="bg-white shadow-soft sticky top-0 z-50">
         <div className="container mx-auto px-6 flex justify-between items-center py-4">
           <button onClick={() => setView('home')} className="flex items-center gap-3 cursor-pointer">

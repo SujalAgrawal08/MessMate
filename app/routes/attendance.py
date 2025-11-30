@@ -23,7 +23,7 @@ def mark_attendance(student_email: str, meal_type: str, session: Session = Depen
 
     if on_leave:
         # Throw error so the Scanner turns RED
-        raise HTTPException(status_code=400, detail="❌ BLOCKED: Student marked LEAVE")
+        raise HTTPException(status_code=400, detail="BLOCKED: Student marked LEAVE")
 
     # 2. Check if already marked for this meal
     existing = session.exec(select(Attendance).where(
