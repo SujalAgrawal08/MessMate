@@ -16,9 +16,9 @@ import {
   ScanLine,
   BrainCircuit,
   Table,
-  Zap,
   AlertTriangle,
-  X
+  X,
+  PanelBottom
 } from "lucide-react";
 import QRCode from "react-qr-code";
 import AttendanceScanner from "./AttendanceScanner";
@@ -189,7 +189,7 @@ function Dashboard() {
       <div className="flex justify-between items-center mb-8 glass-card p-6 rounded-2xl">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-cyan-500/10 rounded-full border border-cyan-500/20">
-             <Zap className="text-cyan-400" size={24} />
+             <PanelBottom className="text-cyan-400" size={24} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-white">
