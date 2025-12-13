@@ -5,7 +5,7 @@ import os
 load_dotenv()
 
 # --- Changed "POSTGRES_URL" to "DATABASE_URL" to match Render ---
-#DATABASE_URL = os.getenv("POSTGRES_URL")
+# DATABASE_URL = os.getenv("POSTGRES_URL")  ------- Not required anymore, neither for local nor for deployment
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
