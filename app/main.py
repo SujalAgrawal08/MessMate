@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.database import init_db, engine # <-- Import engine
-from sqlmodel import SQLModel # <-- Import SQLModel
-from app.routes import menu, feedback, auth_routes, waste, attendance, analytics, leaves # <-- Add analytics
+from app.database import init_db, engine 
+from sqlmodel import SQLModel 
+from app.routes import menu, feedback, auth_routes, waste, attendance, analytics, leaves 
 
 app = FastAPI(title="Smart Mess Analyzer API")
 
@@ -19,7 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- ADD THIS BLOCK FOR A ONE-TIME RESET ---
+# --- BLOCK FOR A ONE-TIME RESET ---
 @app.on_event("startup")
 def on_startup():
     # Drops all tables (use with caution)

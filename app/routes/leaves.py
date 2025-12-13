@@ -21,8 +21,7 @@ def apply_leave(
     user: User = Depends(get_current_user), 
     session: Session = Depends(get_session)
 ):
-    # 1. TIME VALIDATION (The New Logic)
-    # Only enforce time checks if the leave is for TODAY
+    # 1. TIME VALIDATION 
     if leave_date == date.today():
         current_time = datetime.now().time()
         

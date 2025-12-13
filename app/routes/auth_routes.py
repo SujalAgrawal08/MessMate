@@ -3,7 +3,7 @@ from sqlmodel import Session, select
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from app.database import get_session
 from app.models import User
-from app.auth import create_access_token, verify_token # Ensure verify_token is imported
+from app.auth import create_access_token, verify_token 
 from passlib.context import CryptContext
 
 router = APIRouter(tags=["Authentication"])
@@ -35,7 +35,6 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = D
     access_token = create_access_token(data={"sub": user.email, "role": user.role})
     return {"access_token": access_token, "token_type": "bearer"}
 
-# --- THIS IS THE MISSING FUNCTION YOU NEED ---
 def get_current_user(token: str = Depends(oauth2_scheme), session: Session = Depends(get_session)):
     """
     Decodes the token and retrieves the current User from the database.

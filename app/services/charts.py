@@ -27,7 +27,6 @@ def generate_sentiment_chart(session: Session):
     categories = ["Positive", "Neutral", "Negative"]
     values = [counts["Positive"], counts["Neutral"], counts["Negative"]]
     
-    # --- THEME UPDATE ---
     # Neon Green, Slate Grey, Neon Red
     colors = ["#4ade80", "#64748b", "#f87171"] 
     text_color = "#e2e8f0" # Slate-200
@@ -64,7 +63,7 @@ def generate_sentiment_chart(session: Session):
 
     # Save
     buffer = io.BytesIO()
-    plt.savefig(buffer, format="png", transparent=True) # Important: transparent=True
+    plt.savefig(buffer, format="png", transparent=True) 
     buffer.seek(0)
     img_data = base64.b64encode(buffer.getvalue()).decode("utf-8")
     plt.close()

@@ -18,5 +18,4 @@ def log_waste(log: WasteLog, session: Session = Depends(get_session)):
 def get_waste_analytics(session: Session = Depends(get_session)):
     """Returns data for the Admin Dashboard Charts"""
     logs = session.exec(select(WasteLog)).all()
-    # In Week 10, you will add the regression model logic here
     return logs

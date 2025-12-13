@@ -44,12 +44,12 @@ class WasteLog(SQLModel, table=True):
 class Attendance(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     student_id: int
-    log_date: date = Field(default_factory=date.today) # <--- RENAMED from 'date' to 'log_date'
+    log_date: date = Field(default_factory=date.today) 
     meal_type: str 
     status: str = "Present"
 class LeaveRecord(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     student_id: int
     leave_date: date
-    meal_type: str # Breakfast, Lunch, etc.
+    meal_type: str 
     created_at: date = Field(default_factory=date.today)

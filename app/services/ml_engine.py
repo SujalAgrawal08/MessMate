@@ -10,7 +10,7 @@ from sqlmodel import Session, select
 from app.models import Attendance, WasteLog
 from datetime import date, timedelta
 
-# --- 1. HELPER FUNCTIONS ---
+
 
 def generate_demand_forecast(session: Session):
     """
@@ -100,7 +100,6 @@ def predict_tomorrow_waste(session: Session):
         "predicted_waste_kg": round(max(0, waste_pred), 2)
     }
 
-# --- 2. CHART GENERATION (DARK THEME) ---
 
 def generate_waste_regression_chart(session: Session):
     """Generates the plot image with Cyber-Dark Theme."""

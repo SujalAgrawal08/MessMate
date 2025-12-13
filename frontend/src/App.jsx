@@ -3,7 +3,7 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import Footer from './components/Footer';
 import Login from './components/Login'; 
-import { Salad, LayoutDashboard } from 'lucide-react'; // <--- Changed Zap back to Salad
+import { Salad, LayoutDashboard } from 'lucide-react'; 
 import { Toaster } from 'react-hot-toast';
 import ThreeBackground from './components/ThreeBackground';
 

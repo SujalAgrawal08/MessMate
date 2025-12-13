@@ -28,7 +28,7 @@ def mark_attendance(student_email: str, meal_type: str, session: Session = Depen
     # 2. Check if already marked for this meal
     existing = session.exec(select(Attendance).where(
         Attendance.student_id == user.id,
-        Attendance.log_date == date.today(), # <--- UPDATED HERE
+        Attendance.log_date == date.today(), 
         Attendance.meal_type == meal_type
     )).first()
     
@@ -44,6 +44,5 @@ def mark_attendance(student_email: str, meal_type: str, session: Session = Depen
 @router.get("/today")
 def get_today_count(session: Session = Depends(get_session)):
     # Used for Admin Dashboard KPI
-    # <--- UPDATED BELOW
     count = session.query(Attendance).filter(Attendance.log_date == date.today()).count()
     return {"total_students_eaten": count}

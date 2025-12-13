@@ -4,7 +4,7 @@ from app.database import get_session
 from app.services.ml_engine import (
     generate_demand_forecast, 
     generate_waste_regression_chart,
-    predict_tomorrow_waste # <--- Import new function
+    predict_tomorrow_waste 
 )
 
 router = APIRouter(prefix="/analytics", tags=["Analytics"])

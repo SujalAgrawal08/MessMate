@@ -4,7 +4,6 @@ from app.services.nutrition_estimator import estimate_nutrition
 
 router = APIRouter(prefix="/menu", tags=["Menu"])
 
-# --- YOUR HARDCODED SCHEDULE ---
 full_schedule = {
     'Monday': {'Breakfast': ['Poha', 'Sprouts'], 'Lunch': ['Aalu', 'Soyabean', 'Roti'], 'Snacks': ['Tea', 'Aalu Patties'], 'Dinner': ['Khadai Chicken', 'Rice']},
     'Tuesday': {'Breakfast': ['Seasonal Paratha'], 'Lunch': ['White Chole', 'Jeera Rice'], 'Snacks': ['Tea', 'Samosa'], 'Dinner': ['Chana Dal', 'Laddu']},
@@ -26,18 +25,15 @@ def get_today_menu_with_nutrition():
     Dynamically fetches today's items from the hardcoded list 
     and generates nutrition values on the fly.
     """
-    # 1. Get Today's Day Name (e.g., 'Monday')
+    # 1. Get Today's Day Name 
     today_name = datetime.now().strftime('%A')
     
-    # Safety: If server time is weird or it's a leap-second day, default to Monday
     if today_name not in full_schedule:
         today_name = 'Monday'
 
     today_items_raw = full_schedule[today_name]
     
     # 2. Structure the response
-    # We transform the simple string list ['Poha', 'Sprouts'] 
-    # into Objects [{'item_name': 'Poha', 'calories': 180...}, ...]
     enriched_menu = {
         "Breakfast": [],
         "Lunch": [],

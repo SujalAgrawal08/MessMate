@@ -1,7 +1,6 @@
 import random
 
 # A "Knowledge Base" of common Indian Mess items (per serving)
-# You can expand this or connect it to an external API like CalorieNinjas later.
 FOOD_DATABASE = {
     "Poha": {"calories": 180, "protein": 4, "carbs": 25, "fats": 7},
     "Sprouts": {"calories": 60, "protein": 6, "carbs": 10, "fats": 0.5},
