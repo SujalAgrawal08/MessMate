@@ -4,20 +4,21 @@ import os
 
 load_dotenv()
 
-# 1. Get the URL
-DATABASE_URL = os.getenv("POSTGRES_URL")
+# --- Changed "POSTGRES_URL" to "DATABASE_URL" to match Render ---
+#DATABASE_URL = os.getenv("POSTGRES_URL")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-# 2. Fix URL
-if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+if not DATABASE_URL:
+    raise ValueError("CRITICAL ERROR: DATABASE_URL is missing! Check Render Environment Variables.")
+
+if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-
-# 3. Create Engine with connection checks
 
 engine = create_engine(
     DATABASE_URL, 
-    echo=True, 
+    echo=False,         
     pool_pre_ping=True,  
-    pool_recycle=1800    # Recycle connections every 30 mins
+    pool_recycle=1800    
 )
 
 def init_db():

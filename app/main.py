@@ -6,10 +6,7 @@ from app.routes import menu, feedback, auth_routes, waste, attendance, analytics
 
 app = FastAPI(title="Smart Mess Analyzer API")
 
-origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
