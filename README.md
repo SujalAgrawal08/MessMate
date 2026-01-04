@@ -17,11 +17,11 @@
 
 ---
 
-<img src="https://drive.google.com/file/d/19X16aslFWfeYC9uiwih1eOpolpogYqsr" alt="Homepage" width="80%"/>
+<img src="https://drive.google.com/uc?export=view&id=19X16aslFWfeYC9uiwih1eOpolpogYqsr" alt="Homepage" width="80%"/>
 
 <br/><br/>
 
-<img src="https://drive.google.com/file/d/1qf6PZKKGJi-6ZiHjONMn2fzbGxq-ZS1a" alt="Login Page" width="80%"/>
+<img src="https://drive.google.com/uc?export=view&id=1qf6PZKKGJi-6ZiHjONMn2fzbGxq-ZS1a" alt="Login Page" width="80%"/>
 </div>
 
 ## About
