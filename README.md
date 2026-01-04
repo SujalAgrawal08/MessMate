@@ -13,6 +13,17 @@
 
 </div>
 
+## About
+
+**MessMate** transforms traditional hostel mess management through intelligent automation and data analytics. Beyond basic management, the platform employs an **AI-driven Analytics Engine** that provides:
+
+- 🥗 **Nutritional insights** for balanced meal planning
+- 📈 **Demand forecasting** using regression analysis
+- ♻️ **Waste reduction** through predictive analytics
+
+> Built to streamline operations, enhance student experience, and promote sustainable food management.
+
+
 ## Tech Stack
 
 **Frontend:** React.js + Tailwind CSS (Responsive UI)
