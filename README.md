@@ -89,7 +89,7 @@ def health_check(): return {"status": "active"}
 ### Installation
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/messmate.git
+   git clone https://github.com/SujalAgrawal08/MessMate.git
    cd messmate
    ```
 2. **Backend** 
@@ -101,11 +101,11 @@ def health_check(): return {"status": "active"}
    ```
 
 3. **Frontend**
-  ```bash
-  cd frontend
-  npm install
-  npm run dev
-  ```
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
 4. **Access the Application**
    * Frontend: http://localhost:5173
    * Backend API: http://localhost:8000
