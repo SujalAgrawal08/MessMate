@@ -41,24 +41,33 @@
 **DevOps:** Docker, UptimeRobot (Heartbeat Monitoring)
 
 
-## System Modules & Functionalities
+## ✨ Features
 
-### A. Authentication Module
+### 🔐 Authentication Module
+| Feature | Description |
+|---------|-------------|
+| Secure Login/Signup | JWT-based authentication with Bcrypt password hashing |
+| Role-based Access | Separate flows for students and administrators |
 
-* Login & Signup 
-### B. Student Panel
+### 👨‍🎓 Student Panel
+| Feature | Description |
+|---------|-------------|
+| Digital Menu | Browse daily/weekly menus with nutritional breakdown |
+| Nutrition Analysis | AI-powered dietary insights and recommendations |
+| Opt-Out & Rebate | Skip meals and automatically receive rebates |
+| Feedback System | Submit and track meal feedback |
+| QR Identity | Unique QR code for attendance verification |
 
-* Digital Menu & Nutrition Analysis
-* Opt-Out & Rebate System
-* Feedback Submission
-* QR Attendance Identity
+### 👨‍💼 Admin Panel
+| Feature | Description |
+|---------|-------------|
+| QR Attendance Scanner | Real-time meal attendance tracking |
+| Sentiment Dashboard | NLP-powered feedback analysis with trends |
+| Predictive Analytics | ML-driven waste forecasting and demand prediction |
+| Waste Logging | Manual and automated waste tracking |
+| Menu Management | Create and update digital menus |
 
-### C. Admin Panel
-* Smart QR Attendance Scanner
-* Sentiment Analysis Dashboard
-* Waste Log & Predictive Analytics
-* Waste Log manual form
-* Digital Menu
+---
 
 ## Technical Implementation Highlights
 
