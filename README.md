@@ -12,7 +12,16 @@
 <br/>
 
 [![Live Demo](https://img.shields.io/badge/✨_LIVE_DEMO-TRY_IT_NOW-ff6b6b?style=for-the-badge)](https://messmate-iiitu.vercel.app)
+[![Report Bug](https://img.shields.io/badge/🐛_Report_Bug-Issues-DC3545?style=for-the-badge)](../../issues)
+[![Request Feature](https://img.shields.io/badge/💡_Request_Feature-Ideas-28A745?style=for-the-badge)](../../issues)
 
+---
+
+<img src="https://drive.google.com/file/d/19X16aslFWfeYC9uiwih1eOpolpogYqsr" alt="Homepage" width="80%"/>
+
+<br/><br/>
+
+<img src="https://drive.google.com/file/d/1qf6PZKKGJi-6ZiHjONMn2fzbGxq-ZS1a" alt="Login Page" width="80%"/>
 </div>
 
 ## About
