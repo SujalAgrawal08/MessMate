@@ -118,7 +118,6 @@ def health_check(): return {"status": "active"}
   
 
 <div align="center">
-⬆ Back to Top
 
 Made with ❤️ by Sujal Agrawal
 
