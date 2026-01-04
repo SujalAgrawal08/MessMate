@@ -11,7 +11,7 @@
 
 <br/>
 
-[![Live Demo](https://img.shields.io/badge/✨_LIVE_DEMO-TRY_IT_NOW-ff6b6b?style=for-the-badge)](https://your-demo-link.com)
+[![Live Demo](https://img.shields.io/badge/✨_LIVE_DEMO-TRY_IT_NOW-ff6b6b?style=for-the-badge)](https://messmate-iiitu.vercel.app)
 
 </div>
 
