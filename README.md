@@ -5,11 +5,13 @@
 ### A Data-Driven Hostel Mess Management Platform
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
-[Live Demo](https://your-demo-link.com)
+<br/>
+
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Click_Here-FF5722?style=for-the-badge&logoColor=white)](https://your-demo-link.com)
 
 </div>
 
