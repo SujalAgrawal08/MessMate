@@ -26,30 +26,27 @@
 
 ## Tech Stack
 
-**Frontend:** React.js + Tailwind CSS (Responsive UI)
+| Layer | Technologies |
+|-------|--------------|
+| **Frontend** | React.js, Tailwind CSS |
+| **Backend** | FastAPI (Python) |
+| **Database** | PostgreSQL + SQLModel ORM |
+| **Data Science** | Pandas, NumPy, Scikit-Learn |
+| **NLP** | TextBlob (Sentiment Analysis) |
+| **Auth** | JWT + Bcrypt |
+| **DevOps** | Docker, UptimeRobot |
 
-**Backend:** FastAPI (Python)
-
-**Database:** PostgreSQL (Managed via SQLModel ORM)
-
-**Data Science:** Pandas, NumPy, Scikit-Learn (Regression/Forecasting)
-
-**NLP:** TextBlob (Sentiment Analysis)
-
-**Authentication:** JWT (JSON Web Tokens) with Bcrypt hashing
-
-**DevOps:** Docker, UptimeRobot (Heartbeat Monitoring)
-
+---
 
 ## ✨ Features
 
-### 🔐 Authentication Module
+### Authentication Module
 | Feature | Description |
 |---------|-------------|
 | Secure Login/Signup | JWT-based authentication with Bcrypt password hashing |
 | Role-based Access | Separate flows for students and administrators |
 
-### 👨‍🎓 Student Panel
+### Student Panel
 | Feature | Description |
 |---------|-------------|
 | Digital Menu | Browse daily/weekly menus with nutritional breakdown |
@@ -58,7 +55,7 @@
 | Feedback System | Submit and track meal feedback |
 | QR Identity | Unique QR code for attendance verification |
 
-### 👨‍💼 Admin Panel
+### Admin Panel
 | Feature | Description |
 |---------|-------------|
 | QR Attendance Scanner | Real-time meal attendance tracking |
@@ -82,17 +79,42 @@ def health_check(): return {"status": "active"}
 * Frontend: Deployed on Vercel.
 * Monitoring: UptimeRobot ensures 24/7 availability.
 
-## How to Run Locally
-* Backend: 
-```
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
+## Getting started
+### Prerequisites
 
-* Frontend:
-```
-cd frontend
-npm install
-npm run dev
-```
+- Python 3.9+
+- Node.js 18+
+- PostgreSQL 14+
+- Docker (optional)
+### Installation
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/messmate.git
+   cd messmate
+   ```
+2. **Backend** 
+   ```bash
+   python -m venv venv
+   source venv/bin/activate 
+   pip install -r requirements.txt
+   uvicorn main:app --reload
+   ```
 
+3. **Frontend**
+  ```bash
+  cd frontend
+  npm install
+  npm run dev
+  ```
+4. **Access the Application**
+   * Frontend: http://localhost:5173
+   * Backend API: http://localhost:8000
+   * API Docs: http://localhost:8000/docs
+  
+
+<div align="center">
+⬆ Back to Top
+
+Made with ❤️ by Sujal Agrawal
+
+</div>
