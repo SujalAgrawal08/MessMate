@@ -1,8 +1,17 @@
+<div align="center">
 
-# MessMate 
+# MessMate
 
-A Data-Driven Hostel Mess Management Platform. Beyond basic management, the system employs an AI-driven Analytics Engine to provide nutritional insights, forecast food demand, and reduce wastage using regression analysis.
+### A Data-Driven Hostel Mess Management Platform
 
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+
+[Live Demo](https://your-demo-link.com) • [Report Bug](https://github.com/yourusername/messmate/issues) • [Request Feature](https://github.com/yourusername/messmate/issues)
+
+</div>
 
 ## Tech Stack
 
