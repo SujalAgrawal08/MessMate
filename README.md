@@ -74,10 +74,6 @@ A specialized /health endpoint was engineered to accept HEAD requests from Uptim
 @app.head("/health")
 def health_check(): return {"status": "active"}
 ```
-## Deployment
-* Backend: Deployed on Render (Containerized Python Service).
-* Frontend: Deployed on Vercel.
-* Monitoring: UptimeRobot ensures 24/7 availability.
 
 ## Getting started
 ### Prerequisites
@@ -110,6 +106,15 @@ def health_check(): return {"status": "active"}
    * Frontend: http://localhost:5173
    * Backend API: http://localhost:8000
    * API Docs: http://localhost:8000/docs
+
+
+## ☁️ Deployment
+| Service | Platform | Purpose |
+|---------|---------|-----------|
+| Backend | Render | Containerized Python service |
+| Frontend | Vercel | Static site hosting |
+| Database | Render / Supabase | Managed PostgreSQL |
+| Monitoring | UptimeRobot | 24/7 health checks |
   
 
 <div align="center">
