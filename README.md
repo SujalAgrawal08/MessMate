@@ -30,7 +30,7 @@
 
 | Layer | Technologies |
 |-------|--------------|
-| **Frontend** | React.js, Tailwind CSS |
+| **Frontend** | React.js, Three.js, Tailwind CSS |
 | **Backend** | FastAPI (Python) |
 | **Database** | PostgreSQL + SQLModel ORM |
 | **Data Science** | Pandas, NumPy, Scikit-Learn |
