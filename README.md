@@ -8,10 +8,13 @@
 [![Vite](https://img.shields.io/badge/Vite-171717?style=for-the-badge&logo=vite&logoColor=06b6d4)](https://vitejs.dev/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-171717?style=for-the-badge&logo=postgresql&logoColor=06b6d4)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-171717?style=for-the-badge&logo=docker&logoColor=06b6d4)](https://www.docker.com/)
+[![Python](https://img.shields.io/badge/Python_3.9+-171717?style=for-the-badge&logo=python&logoColor=06b6d4)](https://python.org/)
+[![React](https://img.shields.io/badge/React_18-171717?style=for-the-badge&logo=react&logoColor=06b6d4)](https://reactjs.org/)
 
 <br/>
 
 [![Live Demo](https://img.shields.io/badge/✨_LIVE_DEMO-TRY_IT_NOW-06b6d4?style=for-the-badge)](https://messmate-iiitu.vercel.app)
+[![API Docs](https://img.shields.io/badge/📖_API-Documentation-0891b2?style=for-the-badge)](https://messmate-api.onrender.com/docs)
 [![Report Bug](https://img.shields.io/badge/🐛_Report-Bug-171717?style=for-the-badge)](../../issues)
 [![Request Feature](https://img.shields.io/badge/💡_Request-Feature-0891b2?style=for-the-badge)](../../issues)
 
@@ -22,7 +25,9 @@
 <br/><br/>
 
 <img src="assets/MessMate_Login.png" alt="Login Page" width="80%"/>
+
 </div>
+
 
 ## About
 
