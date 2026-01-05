@@ -154,7 +154,7 @@
 | Role-based Access | Separate flows for students and administrators |
 
 
-Feature Matrix
+<h2> Feature Matrix </h2>
 ```
                           ┌─────────────────────────────────────────────────────────────────────┐
                           │                           FEATURE OVERVIEW                          │
