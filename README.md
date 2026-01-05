@@ -172,6 +172,137 @@ graph TD
 
 ---
 
+## 🏗 Workflow
+
+### Smart QR Attendance Workflow
+
+```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#000000',
+    'primaryTextColor': '#ffffff',
+    'primaryBorderColor': '#00ffff',
+    'lineColor': '#00ffff',
+    'textColor': '#ffffff',
+    'noteBkgColor': '#00ffff',
+    'noteTextColor': '#000000',
+    'noteBorderColor': '#ffffff',
+    'actorBkg': '#000000',
+    'actorBorder': '#00ffff',
+    'actorTextColor': '#ffffff'
+  }
+}}%%
+sequenceDiagram
+    participant Student as Student App (Static QR)
+    participant Admin as Admin Scanner
+    participant API as Backend API
+    participant DB as Database
+
+    Student->>Admin: Shows Static QR Code
+    Admin->>API: POST /scan (Student ID)
+    
+    activate API
+    API->>DB: Check "Opt-Out" Status
+    
+    alt Student has Opted Out
+        DB-->>API: Status: Opted-Out
+        API-->>Admin: ❌ REJECT: "Rebate Applied"
+    else Student is Active
+        API->>DB: Check "Already Eaten" Log
+        
+        alt Already Eaten
+            DB-->>API: Found entry for today
+            API-->>Admin: ❌ REJECT: "Already Redeemed"
+        else First Time
+            API->>DB: Create Attendance Record
+            DB-->>API: Success
+            API-->>Admin: ✅ ALLOW: "Attendance Marked"
+        end
+    end
+    deactivate API
+```
+### ML & Analytics Pipeline
+
+```mermaid
+flowchart LR
+    %% Theme Styling
+    classDef input fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+    classDef process fill:#000000,stroke:#00ffff,stroke-width:2px,color:#ffffff;
+    classDef output fill:#00ffff,stroke:#000000,stroke-width:2px,color:#000000;
+    linkStyle default stroke:#ffffff,stroke-width:2px;
+
+    subgraph Input_Sources [Data Sources]
+        Feedback[Student Feedback]:::input
+        Attendance[Daily Attendance]:::input
+        WasteLog[Waste Logs kg]:::input
+    end
+
+    subgraph Processing_Engine [Processing Layer]
+        NLP[TextBlob NLP]:::process
+        Reg[Linear Regression Model]:::process
+        MovAvg[Moving Average Algo]:::process
+    end
+
+    subgraph Output_Insights [Insights]
+        Sentiment[Sentiment Score]:::output
+        WastePred[Waste Prediction kg]:::output
+        Demand[Next Day Demand]:::output
+    end
+
+    Feedback --> NLP
+    NLP --> Sentiment
+    
+    Attendance --> Reg
+    WasteLog --> Reg
+    Reg --> WastePred
+    
+    Attendance --> MovAvg
+    MovAvg --> Demand
+    
+    %% Subgraph Backgrounds
+    style Input_Sources fill:#1a1a1a,stroke:#ffffff,color:#ffffff
+    style Processing_Engine fill:#1a1a1a,stroke:#ffffff,color:#ffffff
+    style Output_Insights fill:#1a1a1a,stroke:#ffffff,color:#ffffff
+```
+### The "Cold Start" Fix
+
+```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#000000',
+    'primaryTextColor': '#ffffff',
+    'primaryBorderColor': '#00ffff',
+    'lineColor': '#ffffff',
+    'textColor': '#ffffff',
+    'noteBkgColor': '#00ffff',
+    'noteTextColor': '#000000',
+    'signalColor': '#00ffff',
+    'actorBkg': '#000000',
+    'actorBorder': '#ffffff'
+  }
+}}%%
+sequenceDiagram
+    participant Uptime as UptimeRobot
+    participant Middleware as FastAPI Middleware
+    participant Route as /health Endpoint
+
+    Note over Uptime, Middleware: Ping Cycle (Every 5 mins)
+    
+    Uptime->>Middleware: HEAD /health
+    
+    alt Without Fix
+        Middleware--xUptime: 405 Method Not Allowed
+        Note right of Uptime: ❌ Monitor Fails -> Server Sleeps
+    else With MessMate Fix
+        Middleware->>Route: Forward HEAD Request
+        Route-->>Middleware: 200 OK
+        Middleware-->>Uptime: 200 OK
+        Note right of Uptime: ✅ Traffic Detected -> Active ⚡
+    end
+```
+
 ## Technical Implementation Highlights
 
 ### Cold Start Fix
