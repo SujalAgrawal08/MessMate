@@ -128,46 +128,47 @@ graph TD
 
 <h2> Feature Matrix </h2>
 
-```
-                          ┌─────────────────────────────────────────────────────────────────────┐
-                          │                           FEATURE OVERVIEW                          │
-                          ├──────────────────────────────┬──────────────────────────────────────┤
-                          │         STUDENT PANEL        │              ADMIN PANEL             │
-                          ├──────────────────────────────┼──────────────────────────────────────┤
-                          │                              │                                      │
-                          │  ┌─────────────────────┐     │     ┌─────────────────────┐          │
-                          │  │   📱 Digital Menu   │     │     │  📷 QR Scanner     │          │
-                          │  │   View daily menus  │     │     │  Real-time tracking │          │
-                          │  │   with nutrition    │     │     │  attendance         │          │
-                          │  └─────────────────────┘     │     └─────────────────────┘          │
-                          │                              │                                      │
-                          │  ┌─────────────────────┐     │     ┌─────────────────────┐          │
-                          │  │   🥗 Nutrition AI   │     │     │  📊 Sentiment      │          │
-                          │  │   Personalized      │     │     │  Dashboard          │          │
-                          │  │   recommendations   │     │     │  NLP-powered        │          │
-                          │  └─────────────────────┘     │     │  feedback analysis  │          │
-                          │                              │     └─────────────────────┘          │
-                          │  ┌─────────────────────┐     │                                      │
-                          │  │   ⏭️ Meal Opt-Out   │     │     ┌─────────────────────┐          │
-                          │  │   Skip meals &      │     │     │  📈 Predictive      │          │
-                          │  │   auto rebates      │     │     │  Analytics          │          │
-                          │  └─────────────────────┘     │     │  Demand forecasting │          │
-                          │                              │     │  waste reduction    │          │
-                          │  ┌─────────────────────┐     │     └─────────────────────┘          │
-                          │  │   💬 Feedback       │     │                                      │
-                          │  │   Rate meals &      │     │     ┌─────────────────────┐          │
-                          │  │   submit reviews    │     │     │  🍽️ Menu Manager    │          │
-                          │  └─────────────────────┘     │     │  CRUD operations    │          │
-                          │                              │     │  nutrition data     │          │
-                          │  ┌─────────────────────┐     │     └─────────────────────┘          │
-                          │  │   🎫 QR Identity    │     │                                      │
-                          │  │   Unique QR code    │     │     ┌─────────────────────┐          │
-                          │  │   for verification  │     │     │  ♻️ Waste Tracking  │          │
-                          │  └─────────────────────┘     │     │  Log & analyze      │          │
-                          │                              │     │  food waste         │          │
-                          │                              │     └─────────────────────┘          │
-                          │                              │                                      │
-                          └──────────────────────────────┴──────────────────────────────────────┘
+```mermaid
+graph TD
+    %% --- THEME DEFINITIONS ---
+    classDef featureCard fill:#000000,stroke:#00ffff,stroke-width:2px,color:#ffffff,rx:5,ry:5,align:left;
+    classDef panelTitle fill:#1a1a1a,stroke:#00ffff,stroke-width:0px,color:#00ffff,font-weight:bold,font-size:16px;
+    
+    %% --- MAIN CONTAINER ---
+    subgraph Overview [FEATURE OVERVIEW]
+        direction LR
+
+        %% --- STUDENT PANEL ---
+        subgraph Student_Panel [STUDENT PANEL]
+            direction TB
+            S1["📱 <b>Digital Menu</b><br>View daily menus<br>with nutrition"]:::featureCard
+            S2["🥗 <b>Nutrition AI</b><br>Personalized<br>recommendations"]:::featureCard
+            S3["⏭️ <b>Meal Opt-Out</b><br>Skip meals &<br>auto rebates"]:::featureCard
+            S4["💬 <b>Feedback</b><br>Rate meals &<br>submit reviews"]:::featureCard
+            S5["🎫 <b>QR Identity</b><br>Unique QR code<br>for verification"]:::featureCard
+            
+            %% Invisible links to stack them
+            S1 ~~~ S2 ~~~ S3 ~~~ S4 ~~~ S5
+        end
+
+        %% --- ADMIN PANEL ---
+        subgraph Admin_Panel [ADMIN PANEL]
+            direction TB
+            A1["📷 <b>QR Scanner</b><br>Real-time tracking<br>attendance"]:::featureCard
+            A2["📊 <b>Sentiment Dashboard</b><br>NLP-powered<br>feedback analysis"]:::featureCard
+            A3["📈 <b>Predictive Analytics</b><br>Demand forecasting<br>waste reduction"]:::featureCard
+            A4["🍽️ <b>Menu Manager</b><br>CRUD operations<br>nutrition data"]:::featureCard
+            A5["♻️ <b>Waste Tracking</b><br>Log & analyze<br>food waste"]:::featureCard
+
+            %% Invisible links to stack them
+            A1 ~~~ A2 ~~~ A3 ~~~ A4 ~~~ A5
+        end
+    end
+
+    %% --- SUBGRAPH STYLING ---
+    style Overview fill:#000000,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    style Student_Panel fill:#0a0a0a,stroke:#ffffff,stroke-dasharray: 5 5,color:#00ffff
+    style Admin_Panel fill:#0a0a0a,stroke:#ffffff,stroke-dasharray: 5 5,color:#00ffff
 ```
 
 ---
