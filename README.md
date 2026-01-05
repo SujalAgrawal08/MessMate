@@ -47,23 +47,30 @@
 
 ```mermaid
 graph TD
-    subgraph Client_Side
-        Student[Student Panel]
-        Admin[Admin Panel]
+    %% Theme Styling
+    classDef baseNode fill:#000000,stroke:#00ffff,stroke-width:2px,color:#ffffff;
+    classDef highlightNode fill:#00ffff,stroke:#000000,stroke-width:2px,color:#000000;
+    classDef whiteNode fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000;
+    linkStyle default stroke:#00ffff,stroke-width:2px;
+
+    subgraph Client_Side [Client Side]
+        direction TB
+        Student[Student Panel]:::baseNode
+        Admin[Admin Panel]:::baseNode
     end
 
-    subgraph Backend_Infrastructure
-        LB[Render Load Balancer]
-        API[FastAPI Backend]
-        ML[ML Engine & Analytics]
+    subgraph Backend_Infrastructure [Backend Infrastructure]
+        LB[Render Load Balancer]:::whiteNode
+        API[FastAPI Backend]:::baseNode
+        ML[ML Engine & Analytics]:::baseNode
     end
 
-    subgraph Data_Persistence
-        DB[(PostgreSQL Database)]
+    subgraph Data_Persistence [Data Layer]
+        DB[(PostgreSQL Database)]:::highlightNode
     end
 
-    subgraph External_Services
-        Uptime[UptimeRobot Monitor]
+    subgraph External_Services [External]
+        Uptime[UptimeRobot Monitor]:::whiteNode
     end
 
     Student -->|HTTP Request| LB
@@ -74,9 +81,11 @@ graph TD
     
     Uptime -->|HEAD Request /health| API
     
-    style API fill:#f9f,stroke:#333,stroke-width:2px
-    style DB fill:#bbf,stroke:#333,stroke-width:2px
-    style Uptime fill:#ff9,stroke:#333,stroke-width:2px
+    %% Subgraph Styling
+    style Client_Side fill:#1a1a1a,stroke:#ffffff,color:#ffffff
+    style Backend_Infrastructure fill:#1a1a1a,stroke:#ffffff,color:#ffffff
+    style Data_Persistence fill:#1a1a1a,stroke:#ffffff,color:#ffffff
+    style External_Services fill:#1a1a1a,stroke:#ffffff,color:#ffffff
 ```
 
 ---
