@@ -119,13 +119,6 @@ graph TD
 
 ## ✨ Features
 
-### Authentication Module
-| Feature | Description |
-|---------|-------------|
-| Secure Login/Signup | JWT-based authentication with Bcrypt password hashing |
-| Role-based Access | Separate flows for students and administrators |
-
-
 <div align="center">
 
 <table>
@@ -162,7 +155,6 @@ graph TD
 </table>
 
 </div>
----
 
 ## 🏗 Workflow
 
