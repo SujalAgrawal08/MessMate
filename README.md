@@ -118,17 +118,30 @@
 
 ---
 
-## Tech Stack
+## 💻 Tech Stack
 
-| Layer | Technologies |
-|-------|--------------|
-| **Frontend** | React.js, Three.js, Tailwind CSS |
-| **Backend** | FastAPI (Python) |
-| **Database** | PostgreSQL + SQLModel ORM |
-| **Data Science** | Pandas, NumPy, Scikit-Learn |
-| **NLP** | TextBlob (Sentiment Analysis) |
-| **Auth** | JWT + Bcrypt |
-| **DevOps** | Docker, UptimeRobot |
+<div align="center">
+
+### Core Technologies
+
+| Layer | Technology | Purpose |
+|:-----:|:----------:|:--------|
+| **Frontend** | ![React](https://img.shields.io/badge/React-171717?style=flat-square&logo=react&logoColor=06b6d4) | Component-based UI with hooks |
+| | ![Three.js](https://img.shields.io/badge/Three.js-171717?style=flat-square&logo=three.js&logoColor=06b6d4) | 3D visualizations & animations |
+| | ![TailwindCSS](https://img.shields.io/badge/Tailwind-171717?style=flat-square&logo=tailwindcss&logoColor=06b6d4) | Utility-first styling |
+| **Backend** | ![FastAPI](https://img.shields.io/badge/FastAPI-171717?style=flat-square&logo=fastapi&logoColor=06b6d4) | Async REST API framework |
+| | ![Pydantic](https://img.shields.io/badge/Pydantic-171717?style=flat-square&logo=pydantic&logoColor=06b6d4) | Data validation & serialization |
+| **Database** | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-171717?style=flat-square&logo=postgresql&logoColor=06b6d4) | ACID-compliant relational DB |
+| | ![SQLModel](https://img.shields.io/badge/SQLModel-171717?style=flat-square&logo=python&logoColor=06b6d4) | ORM with type hints |
+| **ML/AI** | ![Pandas](https://img.shields.io/badge/Pandas-171717?style=flat-square&logo=pandas&logoColor=06b6d4) | Data manipulation & analysis |
+| | ![Scikit-learn](https://img.shields.io/badge/ScikitLearn-171717?style=flat-square&logo=scikitlearn&logoColor=06b6d4) | ML models for forecasting |
+| | ![TextBlob](https://img.shields.io/badge/TextBlob-171717?style=flat-square&logo=python&logoColor=06b6d4) | NLP sentiment analysis |
+| **Security** | ![JWT](https://img.shields.io/badge/JWT-171717?style=flat-square&logo=jsonwebtokens&logoColor=06b6d4) | Stateless authentication |
+| | ![Bcrypt](https://img.shields.io/badge/Bcrypt-171717?style=flat-square&logo=letsencrypt&logoColor=06b6d4) | Password hashing (cost=12) |
+| **DevOps** | ![Docker](https://img.shields.io/badge/Docker-171717?style=flat-square&logo=docker&logoColor=06b6d4) | Containerization |
+| | ![Render](https://img.shields.io/badge/Render-171717?style=flat-square&logo=render&logoColor=06b6d4) | Cloud deployment |
+
+</div>
 
 ---
 
