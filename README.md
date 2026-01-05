@@ -153,50 +153,49 @@
 | Secure Login/Signup | JWT-based authentication with Bcrypt password hashing |
 | Role-based Access | Separate flows for students and administrators |
 
-<div align="center">
-  Feature Matrix
+
+Feature Matrix
 ```
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                           FEATURE OVERVIEW                                       │
-├──────────────────────────────┬──────────────────────────────────────────────────┤
-│         STUDENT PANEL        │              ADMIN PANEL                         │
-├──────────────────────────────┼──────────────────────────────────────────────────┤
-│                              │                                                  │
-│  ┌─────────────────────┐     │     ┌─────────────────────┐                      │
-│  │   📱 Digital Menu   │     │     │  📷 QR Scanner      │                     │
-│  │   View daily menus  │     │     │  Real-time tracking │                      │
-│  │   with nutrition    │     │     │  attendance         │                      │
-│  └─────────────────────┘     │     └─────────────────────┘                      │
-│                              │                                                  │
-│  ┌─────────────────────┐     │     ┌─────────────────────┐                      │
-│  │   🥗 Nutrition AI   │     │     │  📊 Sentiment       │                     │
-│  │   Personalized      │     │     │  Dashboard          │                      │
-│  │   recommendations   │     │     │  NLP-powered        │                      │
-│  └─────────────────────┘     │     │  feedback analysis  │                      │
-│                              │     └─────────────────────┘                      │
-│  ┌─────────────────────┐     │                                                  │
-│  │   ⏭️ Meal Opt-Out   │     │     ┌─────────────────────┐                      │
-│  │   Skip meals &      │     │     │  📈 Predictive      │                      │
-│  │   auto rebates      │     │     │  Analytics          │                      │
-│  └─────────────────────┘     │     │  Demand forecasting │                      │
-│                              │     │  waste reduction    │                      │
-│  ┌─────────────────────┐     │     └─────────────────────┘                      │
-│  │   💬 Feedback       │     │                                                  │
-│  │   Rate meals &      │     │     ┌─────────────────────┐                      │
-│  │   submit reviews    │     │     │  🍽️ Menu Manager    │                      │
-│  └─────────────────────┘     │     │  CRUD operations    │                      │
-│                              │     │  nutrition data     │                      │
-│  ┌─────────────────────┐     │     └─────────────────────┘                      │
-│  │   🎫 QR Identity    │     │                                                  │
-│  │   Unique QR code    │     │     ┌─────────────────────┐                      │
-│  │   for verification  │     │     │  ♻️ Waste Tracking  │                      │
-│  └─────────────────────┘     │     │  Log & analyze      │                      │
-│                              │     │  food waste         │                      │
-│                              │     └─────────────────────┘                      │
-│                              │                                                  │
-└──────────────────────────────┴──────────────────────────────────────────────────┘
+                          ┌─────────────────────────────────────────────────────────────────────────────────┐
+                          │                           FEATURE OVERVIEW                                       │
+                          ├──────────────────────────────┬──────────────────────────────────────────────────┤
+                          │         STUDENT PANEL        │              ADMIN PANEL                         │
+                          ├──────────────────────────────┼──────────────────────────────────────────────────┤
+                          │                              │                                                  │
+                          │  ┌─────────────────────┐     │     ┌─────────────────────┐                      │
+                          │  │   📱 Digital Menu   │     │     │  📷 QR Scanner      │                     │
+                          │  │   View daily menus  │     │     │  Real-time tracking │                      │
+                          │  │   with nutrition    │     │     │  attendance         │                      │
+                          │  └─────────────────────┘     │     └─────────────────────┘                      │
+                          │                              │                                                  │
+                          │  ┌─────────────────────┐     │     ┌─────────────────────┐                      │
+                          │  │   🥗 Nutrition AI   │     │     │  📊 Sentiment       │                     │
+                          │  │   Personalized      │     │     │  Dashboard          │                      │
+                          │  │   recommendations   │     │     │  NLP-powered        │                      │
+                          │  └─────────────────────┘     │     │  feedback analysis  │                      │
+                          │                              │     └─────────────────────┘                      │
+                          │  ┌─────────────────────┐     │                                                  │
+                          │  │   ⏭️ Meal Opt-Out   │     │     ┌─────────────────────┐                      │
+                          │  │   Skip meals &      │     │     │  📈 Predictive      │                      │
+                          │  │   auto rebates      │     │     │  Analytics          │                      │
+                          │  └─────────────────────┘     │     │  Demand forecasting │                      │
+                          │                              │     │  waste reduction    │                      │
+                          │  ┌─────────────────────┐     │     └─────────────────────┘                      │
+                          │  │   💬 Feedback       │     │                                                  │
+                          │  │   Rate meals &      │     │     ┌─────────────────────┐                      │
+                          │  │   submit reviews    │     │     │  🍽️ Menu Manager    │                      │
+                          │  └─────────────────────┘     │     │  CRUD operations    │                      │
+                          │                              │     │  nutrition data     │                      │
+                          │  ┌─────────────────────┐     │     └─────────────────────┘                      │
+                          │  │   🎫 QR Identity    │     │                                                  │
+                          │  │   Unique QR code    │     │     ┌─────────────────────┐                      │
+                          │  │   for verification  │     │     │  ♻️ Waste Tracking  │                      │
+                          │  └─────────────────────┘     │     │  Log & analyze      │                      │
+                          │                              │     │  food waste         │                      │
+                          │                              │     └─────────────────────┘                      │
+                          │                              │                                                  │
+                          └──────────────────────────────┴──────────────────────────────────────────────────┘
 ```
-</div>
 
 ---
 
