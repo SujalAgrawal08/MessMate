@@ -153,23 +153,50 @@
 | Secure Login/Signup | JWT-based authentication with Bcrypt password hashing |
 | Role-based Access | Separate flows for students and administrators |
 
-### Student Panel
-| Feature | Description |
-|---------|-------------|
-| Digital Menu | Browse daily/weekly menus with nutritional breakdown |
-| Nutrition Analysis | AI-powered dietary insights and recommendations |
-| Opt-Out & Rebate | Skip meals and automatically receive rebates |
-| Feedback System | Submit and track meal feedback |
-| QR Identity | Unique QR code for attendance verification |
-
-### Admin Panel
-| Feature | Description |
-|---------|-------------|
-| QR Attendance Scanner | Real-time meal attendance tracking |
-| Sentiment Dashboard | NLP-powered feedback analysis with trends |
-| Predictive Analytics | ML-driven waste forecasting and demand prediction |
-| Waste Logging | Manual and automated waste tracking |
-| Menu Management | Create and update digital menus |
+<div align="center">
+  Feature Matrix
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           FEATURE OVERVIEW                                       │
+├──────────────────────────────┬──────────────────────────────────────────────────┤
+│         STUDENT PANEL        │              ADMIN PANEL                         │
+├──────────────────────────────┼──────────────────────────────────────────────────┤
+│                              │                                                  │
+│  ┌─────────────────────┐     │     ┌─────────────────────┐                      │
+│  │   📱 Digital Menu   │     │     │  📷 QR Scanner      │                     │
+│  │   View daily menus  │     │     │  Real-time tracking │                      │
+│  │   with nutrition    │     │     │  attendance         │                      │
+│  └─────────────────────┘     │     └─────────────────────┘                      │
+│                              │                                                  │
+│  ┌─────────────────────┐     │     ┌─────────────────────┐                      │
+│  │   🥗 Nutrition AI   │     │     │  📊 Sentiment       │                     │
+│  │   Personalized      │     │     │  Dashboard          │                      │
+│  │   recommendations   │     │     │  NLP-powered        │                      │
+│  └─────────────────────┘     │     │  feedback analysis  │                      │
+│                              │     └─────────────────────┘                      │
+│  ┌─────────────────────┐     │                                                  │
+│  │   ⏭️ Meal Opt-Out   │     │     ┌─────────────────────┐                      │
+│  │   Skip meals &      │     │     │  📈 Predictive      │                      │
+│  │   auto rebates      │     │     │  Analytics          │                      │
+│  └─────────────────────┘     │     │  Demand forecasting │                      │
+│                              │     │  waste reduction    │                      │
+│  ┌─────────────────────┐     │     └─────────────────────┘                      │
+│  │   💬 Feedback       │     │                                                  │
+│  │   Rate meals &      │     │     ┌─────────────────────┐                      │
+│  │   submit reviews    │     │     │  🍽️ Menu Manager    │                      │
+│  └─────────────────────┘     │     │  CRUD operations    │                      │
+│                              │     │  nutrition data     │                      │
+│  ┌─────────────────────┐     │     └─────────────────────┘                      │
+│  │   🎫 QR Identity    │     │                                                  │
+│  │   Unique QR code    │     │     ┌─────────────────────┐                      │
+│  │   for verification  │     │     │  ♻️ Waste Tracking  │                      │
+│  └─────────────────────┘     │     │  Log & analyze      │                      │
+│                              │     │  food waste         │                      │
+│                              │     └─────────────────────┘                      │
+│                              │                                                  │
+└──────────────────────────────┴──────────────────────────────────────────────────┘
+```
+</div>
 
 ---
 
