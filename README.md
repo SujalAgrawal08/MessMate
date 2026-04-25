@@ -277,7 +277,7 @@ sequenceDiagram
     Cron->>API: GET /keep-alive
     
     alt Free Tier Sleep Avoidance
-        API->>DB: session.exec(text("SELECT 1;"))
+        API->>DB: Execute SELECT 1
         DB-->>API: Query Success
         API-->>Cron: 200 OK
         Note right of API: ✅ Backend & DB Awake ⚡
