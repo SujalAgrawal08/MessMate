@@ -1,17 +1,33 @@
-name: Keep Supabase Alive
+name: Keep-Alive Ping
 
 on:
   schedule:
-    # Run at 00:00 UTC and 12:00 UTC
-    - cron: '0 0,12 * * *'
+    # Runs every 10 minutes to prevent Render's 15-minute inactivity spin-down
+    - cron: '*/10 * * * *'
   workflow_dispatch:
+    # Allows manual triggering from the GitHub Actions UI
 
 jobs:
-  ping_supabase:
+  ping-backend:
     runs-on: ubuntu-latest
     steps:
-      - name: Query Database (Force Wake-up)
+      - name: Ping Backend Keep-Alive Endpoint
+        env:
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
         run: |
-          curl -f -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/keep_alive?select=*" \
-          -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
-          -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}"
+          if [ -z "$BACKEND_URL" ]; then
+            echo "BACKEND_URL secret is not set! Please configure it in Repository Settings."
+            exit 1
+          fi
+          
+          echo "Pinging $BACKEND_URL/keep-alive..."
+          
+          # Send a GET request. -s for silent, -f to fail fast on HTTP errors (e.g. 500)
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -f "$BACKEND_URL/keep-alive" || echo "failed")
+          
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ Keep-alive ping successful (Status 200)."
+          else
+            echo "❌ Keep-alive ping failed. Received status: $HTTP_STATUS"
+            exit 1
+          fi

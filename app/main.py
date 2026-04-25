@@ -1,14 +1,26 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from app.database import init_db, engine 
-from sqlmodel import SQLModel 
+from app.database import init_db, engine, get_session
+from sqlmodel import SQLModel, Session
+from sqlalchemy import text
+import datetime
 from app.routes import menu, feedback, auth_routes, waste, attendance, analytics, leaves 
 
 app = FastAPI(title="MessMate Backend")
+
 @app.get("/health")
 @app.head("/health")
 async def health_check():
     return {"status": "active"}
+
+@app.get("/keep-alive")
+def keep_alive(session: Session = Depends(get_session)):
+    """Automated endpoint to prevent free-tier Supabase and Render from sleeping."""
+    # Execute a minimal query to keep the DB connection pool active
+    session.exec(text("SELECT 1;"))
+    timestamp = datetime.datetime.now().isoformat()
+    print(f"Keep-alive ping received at {timestamp}")
+    return {"status": "alive", "timestamp": timestamp}
 
 origins = ["*"]
 
