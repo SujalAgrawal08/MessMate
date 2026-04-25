@@ -6,3 +6,15 @@ __pycache__/
 .env
 .env.*
 *.env
+
+# Machine Learning Artifacts
+models/*.pkl
+logs/*.json
+
+# Local testing and dummy databases
+test.db
+*.db
+*.sqlite
+test_runner.py
+standalone_eval.py
+evaluate_ml.py

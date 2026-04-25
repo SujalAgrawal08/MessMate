@@ -33,7 +33,17 @@ def on_startup():
     os.makedirs(LOGS_DIR, exist_ok=True)
     
     # Preload the ML model into memory
-    get_model()
+    model = get_model()
+    
+    # Fallback for deployed environments (like Render) where the .pkl file might not exist
+    if not model:
+        try:
+            from scripts.train_model import train_and_save_model
+            print("Model not found. Attempting initial training...")
+            train_and_save_model()
+            get_model() # Load it after training
+        except Exception as e:
+            print(f"Failed to train initial model: {e}")
     
     # Creates all tables
     init_db()
