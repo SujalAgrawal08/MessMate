@@ -4,8 +4,20 @@ from app.database import get_session
 from app.services.ml_engine import (
     generate_demand_forecast, 
     generate_waste_regression_chart,
-    predict_tomorrow_waste 
+    predict_tomorrow_waste,
+    predict_waste_fast,
+    METRICS_LOG_PATH
 )
+from pydantic import BaseModel
+import os
+import json
+
+class PredictWasteRequest(BaseModel):
+    meal_type: str
+    student_count: int
+    day_of_week: str
+    rolling_avg_attendance: float
+    previous_day_waste: float
 
 router = APIRouter(prefix="/analytics", tags=["Analytics"])
 
@@ -26,3 +38,25 @@ def get_waste_model_chart(session: Session = Depends(get_session)):
 def get_tomorrow_waste_prediction(session: Session = Depends(get_session)):
     """Returns the text-based prediction for tomorrow's waste."""
     return predict_tomorrow_waste(session)
+
+@router.post("/predict_waste")
+def fast_predict_waste(request: PredictWasteRequest):
+    """Fast inference endpoint for predicting waste (<100ms)"""
+    return predict_waste_fast(
+        meal_type=request.meal_type,
+        student_count=request.student_count,
+        day_of_week=request.day_of_week,
+        rolling_avg=request.rolling_avg_attendance,
+        prev_waste=request.previous_day_waste
+    )
+
+@router.get("/model_metrics")
+def get_model_metrics():
+    """Returns the logged metrics and predictions for the model."""
+    if os.path.exists(METRICS_LOG_PATH):
+        try:
+            with open(METRICS_LOG_PATH, 'r') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            return []
+    return []

@@ -26,6 +26,15 @@ def on_startup():
     # Drops all tables (use with caution)
     # SQLModel.metadata.drop_all(engine)
     
+    import os
+    from app.services.ml_engine import get_model, MODELS_DIR, LOGS_DIR
+    
+    os.makedirs(MODELS_DIR, exist_ok=True)
+    os.makedirs(LOGS_DIR, exist_ok=True)
+    
+    # Preload the ML model into memory
+    get_model()
+    
     # Creates all tables
     init_db()
 # -------------------------------------------
