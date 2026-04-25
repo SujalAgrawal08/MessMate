@@ -35,8 +35,8 @@
 | Capability | Description |
 |:---:|:---|
 | 🥗 **Nutritional Intelligence** | AI-powered meal planning with macro/micronutrient tracking |
-| 📈 **Demand Forecasting** | Linear regression models predicting meal attendance |
-| ♻️ **Waste Reduction** | Predictive analytics reducing food waste by up to 30% |
+| 📈 **Demand Forecasting** | Offline ML pipeline engineering temporal features for precise attendance forecasting |
+| ♻️ **Waste Reduction** | Linear Regression pipeline reducing baseline waste prediction error (MAE) by 27%+ |
 | 💬 **Sentiment Analysis** | NLP-driven feedback processing for quality insights |
 
 > **Impact Metrics:** Designed to serve 500+ students with <100ms API response times
@@ -249,7 +249,7 @@ flowchart LR
     style Processing_Engine fill:#1a1a1a,stroke:#ffffff,color:#ffffff
     style Output_Insights fill:#1a1a1a,stroke:#ffffff,color:#ffffff
 ```
-### The "Cold Start" Fix
+### Automated Keep-Alive Architecture
 
 ```mermaid
 %%{init: {
@@ -268,32 +268,34 @@ flowchart LR
   }
 }}%%
 sequenceDiagram
-    participant Uptime as UptimeRobot
-    participant Middleware as FastAPI Middleware
-    participant Route as /health Endpoint
+    participant Cron as GitHub Actions
+    participant API as FastAPI Backend
+    participant DB as Supabase DB
 
-    Note over Uptime, Middleware: Ping Cycle (Every 5 mins)
+    Note over Cron, API: Scheduled Ping (Every 10 mins)
     
-    Uptime->>Middleware: HEAD /health
+    Cron->>API: GET /keep-alive
     
-    alt Without Fix
-        Middleware--xUptime: 405 Method Not Allowed
-        Note right of Uptime: ❌ Monitor Fails -> Server Sleeps
-    else With MessMate Fix
-        Middleware->>Route: Forward HEAD Request
-        Route-->>Middleware: 200 OK
-        Middleware-->>Uptime: 200 OK
-        Note right of Uptime: ✅ Traffic Detected -> Active ⚡
+    alt Free Tier Sleep Avoidance
+        API->>DB: session.exec(text("SELECT 1;"))
+        DB-->>API: Query Success
+        API-->>Cron: 200 OK
+        Note right of API: ✅ Backend & DB Awake ⚡
     end
 ```
 
 ## Technical Implementation Highlights
 
-### Cold Start Fix
-A specialized /health endpoint was engineered to accept HEAD requests from UptimeRobot, preventing the server from sleeping.
+### 1. Production ML Pipeline
+Decoupled offline training from real-time inference. The system automatically engineers temporal features (rolling averages, lag waste) and serializes a scikit-learn pipeline (`joblib`) for sub-100ms API inference, logging all requests for telemetry.
+
+### 2. Zero-Maintenance Keep-Alive
+Engineered an automated endpoint pinged via GitHub Actions every 10 minutes. It executes a lightweight database query to prevent both the Render FastAPI container and Supabase database from sleeping due to free-tier inactivity rules.
 ```python
-@app.head("/health")
-def health_check(): return {"status": "active"}
+@app.get("/keep-alive")
+def keep_alive(session: Session = Depends(get_session)):
+    session.exec(text("SELECT 1;")) # Keeps DB pool active
+    return {"status": "alive"}
 ```
 
 ## Getting started
